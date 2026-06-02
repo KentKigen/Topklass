@@ -3,10 +3,10 @@ import { ImagePlaceholder } from "../components/ui/ImagePlaceholder";
 import { Button } from "../components/ui/Button";
 
 const episodes = [
-  { id: 5, title: "Noisy Neighbors with DJ Mura #05", guest: "Mura the DJ", duration: "120 min" },
-  { id: 4, title: "Noisy Neighbors with DJ Mura #04", guest: "Vigro Deep (Guest)", duration: "120 min" },
-  { id: 3, title: "Noisy Neighbors with DJ Mura #03", guest: "Uncle Waffles (Guest)", duration: "120 min" },
-  { id: 2, title: "Noisy Neighbors with DJ Mura #02", guest: "Mura the DJ", duration: "120 min" },
+  { id: 5, title: "Radio Topklass 005 with Mura", guest: "Mura the DJ", duration: "120 min" },
+  { id: 4, title: "Radio Topklass 004 with Mura", guest: "Vigro Deep (Guest)", duration: "120 min" },
+  { id: 3, title: "Radio Topklass 003 with Mura", guest: "Uncle Waffles (Guest)", duration: "120 min" },
+  { id: 2, title: "Radio Topklass 002 with Mura", guest: "Mura the DJ", duration: "120 min" },
 ];
 
 const SpotifyIcon = ({ className }: { className?: string }) => (
@@ -50,7 +50,7 @@ export function Radio() {
             <div className="aspect-video md:aspect-[21/9] relative bg-brand-black flex flex-col justify-end overflow-hidden">
               <iframe 
                 src="https://www.youtube.com/embed/C96afQY6Oc0?autoplay=0&list=RDC96afQY6Oc0" 
-                title="Noisy Neighbors #062"
+                title="Radio Topklass 001 with Mura"
                 className="absolute inset-0 w-full h-full border-0 opacity-80"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
                 allowFullScreen
@@ -68,7 +68,7 @@ export function Radio() {
                 </div>
 
                 <h2 className="text-4xl md:text-5xl font-heading font-black text-white uppercase tracking-tighter mb-1">
-                  Noisy Neighbors #062
+                  Radio Topklass 001 with Mura
                 </h2>
                 <p className="text-lg md:text-xl text-white/70 font-sans mb-8">
                   Mura takes us on a journey through some of the best Afrohouse & 3-Step jams from the continent to the world.

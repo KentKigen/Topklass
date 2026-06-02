@@ -1,8 +1,8 @@
 import { Link } from "react-router";
 import { Button } from "../components/ui/Button";
 import { ImagePlaceholder } from "../components/ui/ImagePlaceholder";
-import { ImageWithFallback } from "../components/figma/ImageWithFallback";
-import { Play, Calendar, MapPin, Radio as RadioIcon, ArrowRight } from "lucide-react";
+import { ImageWithFallback } from "../components/ui/ImageWithFallback";
+import { Play, Calendar, MapPin, Radio as RadioIcon, ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { motion as Motion } from "motion/react";
 import Slider from "react-slick";
 
@@ -12,6 +12,32 @@ import "slick-carousel/slick/slick-theme.css";
 // @ts-ignore - The image exists in the local filesystem as uploaded by the user
 import heroBg from "../../imports/IMG_3123.JPG";
 
+const CustomPrevArrow = (props: any) => {
+  const { onClick } = props;
+  return (
+    <button
+      className="absolute left-2 md:-left-6 top-1/2 -translate-y-1/2 z-10 w-10 h-10 md:w-12 md:h-12 bg-white/5 hover:bg-white/20 backdrop-blur-md border border-white/10 rounded-full flex items-center justify-center text-white transition-all shadow-lg"
+      onClick={onClick}
+      aria-label="Previous"
+    >
+      <ChevronLeft className="w-6 h-6 md:w-8 md:h-8" />
+    </button>
+  );
+};
+
+const CustomNextArrow = (props: any) => {
+  const { onClick } = props;
+  return (
+    <button
+      className="absolute right-2 md:-right-6 top-1/2 -translate-y-1/2 z-10 w-10 h-10 md:w-12 md:h-12 bg-white/5 hover:bg-white/20 backdrop-blur-md border border-white/10 rounded-full flex items-center justify-center text-white transition-all shadow-lg"
+      onClick={onClick}
+      aria-label="Next"
+    >
+      <ChevronRight className="w-6 h-6 md:w-8 md:h-8" />
+    </button>
+  );
+};
+
 export function Home() {
   const slickSettings = {
     dots: false,
@@ -19,7 +45,9 @@ export function Home() {
     speed: 500,
     slidesToShow: 3,
     slidesToScroll: 1,
-    arrows: false,
+    arrows: true,
+    prevArrow: <CustomPrevArrow />,
+    nextArrow: <CustomNextArrow />,
     autoplay: true,
     autoplaySpeed: 4000,
     responsive: [
@@ -31,8 +59,7 @@ export function Home() {
 
   return (
     <div className="flex flex-col w-full bg-brand-black">
-      {/* 1. Bold Home Hero */}
-      <section className="hero-grain hero-overlay relative w-full h-screen min-h-[600px] flex items-center justify-center overflow-hidden">
+      <section className="hero-grain hero-overlay relative w-full h-[100dvh] min-h-[600px] flex items-center justify-center overflow-hidden">
         <ImageWithFallback
           src={heroBg}
           alt="TopKlass Sounds Hero Background"
@@ -40,65 +67,62 @@ export function Home() {
         />
         <div className="absolute inset-0 bg-brand-black/50 bg-gradient-to-t from-brand-black via-brand-black/30 to-transparent" />
 
-        <div className="container mx-auto px-4 relative z-10 flex flex-col items-center justify-center text-center pb-24">
-          <div className="max-w-4xl flex flex-col items-center">
-            {/* Staggered Premium Reveal */}
-            <h1 className="flex flex-col text-6xl md:text-8xl lg:text-[10rem] font-heading font-black tracking-tighter text-white mb-6 uppercase leading-[0.80] drop-shadow-2xl">
+        <div className="container mx-auto px-4 relative z-10 flex flex-col items-center justify-center text-center h-full pb-24">
+          <div className="max-w-4xl flex flex-col items-center w-full">
+
+            <h1
+              className="flex flex-col font-heading font-black tracking-tighter text-white uppercase drop-shadow-2xl mb-4"
+              style={{ fontSize: "clamp(3rem, 18vw, 10rem)", lineHeight: 0.85 }}
+            >
               <span className="overflow-hidden inline-block pb-2 -mb-2">
                 <Motion.span
-                  className="block"
+                  className="block text-center"
                   initial={{ y: "110%" }}
                   animate={{ y: 0 }}
-                  transition={{ duration: 1, ease: [0.16, 1.0, 0.3, 1.0] }} // Custom spring-like easing
-                >
-                  TopKlass
-                </Motion.span>
+                  transition={{ duration: 1, ease: [0.16, 1.0, 0.3, 1.0] }}
+                >TopKlass</Motion.span>
               </span>
               <span className="overflow-hidden inline-block pb-2 -mb-2">
                 <Motion.span
-                  className="block text-brand-mustard"
+                  className="block text-brand-mustard text-center"
                   initial={{ y: "110%" }}
                   animate={{ y: 0 }}
                   transition={{ duration: 1, delay: 0.15, ease: [0.16, 1.0, 0.3, 1.0] }}
-                >
-                  Sounds
-                </Motion.span>
+                >Sounds</Motion.span>
               </span>
             </h1>
+
             <Motion.p
-              initial={{ opacity: 0, filter: "blur(10px)" }}
-              animate={{ opacity: 1, filter: "blur(0px)" }}
+              initial={{ opacity: 0, y: 10, filter: "blur(10px)" }}
+              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
               transition={{ duration: 1.2, delay: 0.4, ease: "easeOut" }}
-              className="text-[10px] md:text-xs font-heading font-bold tracking-[0.2em] uppercase text-white/70 mb-12 max-w-3xl mx-auto leading-loose"
+              className="text-[10px] sm:text-xs md:text-sm font-heading font-bold tracking-[0.12em] md:tracking-[0.16em] uppercase text-white/80 mb-6 max-w-sm md:max-w-xl mx-auto leading-relaxed md:leading-loose"
             >
-              Topklass Sounds is a dynamic entertainment outfit specializing in music production and event curation,
-              championing cutting-edge African electronic music for a global audience.
+              Topklass Sounds is a dynamic entertainment outfit specializing
+              in music production and event curation, championing cutting-edge
+              African electronic music for a global audience.
             </Motion.p>
+
             <Motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.6, ease: "easeOut" }}
-              className="mt-6"
+              className="w-full md:w-auto"
             >
-              <Link to="/releases" className="group relative inline-flex items-center justify-center focus:outline-none">
-                {/* Advanced Pulsing Background Glow */}
+              <Link to="/releases" className="group relative inline-flex items-center justify-center focus:outline-none w-full md:w-auto">
                 <div className="absolute transition-all duration-1000 opacity-40 -inset-1 bg-brand-mustard rounded-sm blur-xl group-hover:opacity-100 group-hover:-inset-2 group-hover:duration-200"></div>
-
-                {/* Real Button Container */}
                 <Button
                   variant="primary"
                   size="lg"
-                  className="relative gap-4 shadow-none font-black tracking-[0.2em] px-12 py-6 text-lg group-hover:-translate-y-1 transition-all duration-300 bg-brand-mustard text-brand-black hover:bg-[#E8AF1A] border-2 border-transparent hover:border-white/30 focus-ring overflow-hidden"
+                  className="relative gap-3 w-full md:w-auto shadow-none font-black tracking-[0.2em] px-6 md:px-9 py-3 md:py-4 text-xs md:text-sm group-hover:-translate-y-1 transition-all duration-300 bg-brand-mustard text-brand-black hover:bg-[#E8AF1A] border-2 border-transparent hover:border-white/30 focus-ring overflow-hidden"
                 >
-                  {/* Sheen effect passing through */}
                   <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/40 to-transparent group-hover:translate-x-full transition-transform duration-1000 ease-out z-0" />
-
-                  <span className="relative z-10">EXPLORE ARCHIVE</span>
-
-                  <ArrowRight className="relative z-10 w-6 h-6 transition-transform duration-300 ease-out group-hover:translate-x-3" />
+                  <span className="relative z-10 flex-1 text-center md:text-left">EXPLORE ARCHIVE</span>
+                  <ArrowRight className="relative z-10 w-4 h-4 md:w-5 md:h-5 transition-transform duration-300 ease-out group-hover:translate-x-3 shrink-0" />
                 </Button>
               </Link>
             </Motion.div>
+
           </div>
         </div>
 
@@ -128,10 +152,9 @@ export function Home() {
         </div>
       </section>
 
-      {/* 2. Featured Releases Carousel */}
       <section className="py-24 bg-brand-black relative z-10 border-b border-white/5 overflow-hidden">
         <div className="container mx-auto px-4">
-          <div className="flex flex-col md:flex-row justify-between items-end mb-12">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12">
             <div>
               <h2 className="text-4xl md:text-5xl lg:text-6xl font-heading font-black text-white uppercase tracking-tighter">
                 Featured <span className="text-brand-mustard">Releases</span>
@@ -176,7 +199,6 @@ export function Home() {
         </div>
       </section>
 
-      {/* 3. Upcoming Events Strip */}
       <section className="bg-gradient-to-r from-brand-green to-brand-black text-white border-y border-brand-green/50 overflow-hidden relative z-10">
         <div className="container mx-auto px-4 py-8 md:py-10">
           <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-8">
@@ -186,7 +208,22 @@ export function Home() {
 
             <div className="flex-1 overflow-x-auto pb-4 md:pb-0 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
               <div className="flex flex-col md:flex-row gap-4 items-start md:items-center w-max lg:ml-auto pr-4">
-                {/* Event Badge 0: Magharibi Express */}
+                {/* Event Badge 0: Summertides */}
+                <Link to="/events" className="group flex items-center gap-4 md:gap-6 bg-brand-black text-white px-6 py-4 rounded-sm hover:bg-brand-black/90 transition-colors shrink-0 shadow-lg">
+                  <div className="font-heading font-black text-xl text-brand-mustard text-center leading-none min-w-[3.5rem] shrink-0">
+                    JUL<br /><span className="text-2xl md:text-3xl">02</span>
+                  </div>
+                  <div className="h-12 w-px bg-white/20" />
+                  <div className="flex flex-col">
+                    <span className="font-bold uppercase tracking-tight text-lg md:text-xl group-hover:text-brand-mustard transition-colors text-white">Summertides</span>
+                    <span className="text-white/60 text-sm flex items-center gap-1.5"><MapPin className="w-3.5 h-3.5" /> Diani, KE</span>
+                  </div>
+                  <div className="ml-4 opacity-0 group-hover:opacity-100 transition-opacity transform translate-x-[-10px] group-hover:translate-x-0 hidden sm:block">
+                    <ArrowRight className="w-5 h-5 text-brand-mustard" />
+                  </div>
+                </Link>
+
+                {/* Event Badge 1: Magharibi Express */}
                 <Link to="/events" className="group flex items-center gap-4 md:gap-6 bg-brand-black text-white px-6 py-4 rounded-sm hover:bg-brand-black/90 transition-colors shrink-0 shadow-lg">
                   <div className="font-heading font-black text-xl text-brand-mustard text-center leading-none min-w-[3.5rem] shrink-0">
                     AUG<br /><span className="text-2xl md:text-3xl">30</span>
@@ -195,21 +232,6 @@ export function Home() {
                   <div className="flex flex-col">
                     <span className="font-bold uppercase tracking-tight text-lg md:text-xl group-hover:text-brand-mustard transition-colors text-white">Magharibi Express</span>
                     <span className="text-white/60 text-sm flex items-center gap-1.5"><MapPin className="w-3.5 h-3.5" /> Westlands, Nairobi</span>
-                  </div>
-                  <div className="ml-4 opacity-0 group-hover:opacity-100 transition-opacity transform translate-x-[-10px] group-hover:translate-x-0 hidden sm:block">
-                    <ArrowRight className="w-5 h-5 text-brand-mustard" />
-                  </div>
-                </Link>
-
-                {/* Event Badge 1 */}
-                <Link to="/events" className="group flex items-center gap-4 md:gap-6 bg-brand-black text-white px-6 py-4 rounded-sm hover:bg-brand-black/90 transition-colors shrink-0 shadow-lg">
-                  <div className="font-heading font-black text-xl text-brand-mustard text-center leading-none min-w-[3.5rem] shrink-0">
-                    NOV<br /><span className="text-2xl md:text-3xl">15</span>
-                  </div>
-                  <div className="h-12 w-px bg-white/20" />
-                  <div className="flex flex-col">
-                    <span className="font-bold uppercase tracking-tight text-lg md:text-xl group-hover:text-brand-mustard transition-colors">Nairobi, KE</span>
-                    <span className="text-white/60 text-sm flex items-center gap-1.5"><MapPin className="w-3.5 h-3.5" /> The Alchemist Bar</span>
                   </div>
                   <div className="ml-4 opacity-0 group-hover:opacity-100 transition-opacity transform translate-x-[-10px] group-hover:translate-x-0 hidden sm:block">
                     <ArrowRight className="w-5 h-5 text-brand-mustard" />
@@ -240,7 +262,6 @@ export function Home() {
         </div>
       </section>
 
-      {/* 4. Latest Radio Episode Card */}
       <section className="py-24 bg-gradient-to-b from-brand-black via-brand-green/20 to-brand-black relative z-10">
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
@@ -271,14 +292,14 @@ export function Home() {
 
                 <div className="md:w-[55%] p-8 sm:p-12 md:p-16 flex flex-col justify-center relative bg-[#121212] border-l border-white/5 md:border-t-0 border-t">
                   <div className="mb-6">
-                    <span className="text-brand-mustard font-mono text-sm tracking-widest uppercase mb-3 block">Noisy Neighbors with DJ Mura</span>
+                    <span className="text-brand-mustard font-mono text-sm tracking-widest uppercase mb-3 block">Radio Topklass</span>
                     <a
                       href="https://www.youtube.com/watch?v=C96afQY6Oc0&list=RDC96afQY6Oc0&start_radio=1"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-4xl md:text-5xl lg:text-6xl font-heading font-black text-white uppercase tracking-tighter leading-[0.9] group-hover:text-brand-mustard transition-colors inline-block"
                     >
-                      Noisy Neighbors #062
+                      Radio Topklass 001 with Mura
                     </a>
                   </div>
                   <p className="text-lg md:text-xl text-white/70 font-sans mb-8">

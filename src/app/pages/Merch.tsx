@@ -4,11 +4,7 @@ import { ImagePlaceholder } from "../components/ui/ImagePlaceholder";
 import { Button } from "../components/ui/Button";
 
 const products = [
-  { id: 1, name: "Mura, Hiribae, Ghedi, Ayrosh - My Lover", price: "Stream / Buy", category: "Music", src: "/assets/releases/my-lover.jpg", stream: "https://orcd.co/my-lover-presave", bandcamp: "https://topklasssounds.bandcamp.com/" },
-  { id: 2, name: "TopKlass Logo Hoodie", price: "$65", category: "Apparel", src: "https://images.unsplash.com/photo-1614214191247-5b2d3a734f1b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxibGFjayUyMGhvb2RpZXxlbnwxfHx8fDE3NzUwNTcxMTN8MA&ixlib=rb-4.1.0&q=80&w=1080" },
-  { id: 3, name: "Classic Eye Tee", price: "$35", category: "Apparel", src: "https://images.unsplash.com/photo-1759572095329-1dcf9522762b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtaW5pbWFsaXN0JTIwdC1zaGlydHxlbnwxfHx8fDE3NzUxMjM5NDZ8MA&ixlib=rb-4.1.0&q=80&w=1080" },
-  { id: 4, name: "Vanguard Cap", price: "$30", category: "Accessories", src: "https://images.unsplash.com/photo-1588850561407-ed78c282e89b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080" },
-  { id: 5, name: "Show #500 Vinyl", price: "$40", category: "Music", src: "https://images.unsplash.com/photo-1580656449278-e8381933522c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx2aW55bCUyMHJlY29yZHxlbnwxfHx8fDE3NzUwOTk4NTd8MA&ixlib=rb-4.1.0&q=80&w=1080" },
+  { id: 1, name: "Murastar Tee", price: "$45", category: "Apparel", src: "/assets/murastar-tee.jpg" },
   { id: 6, name: "Mura, Sjef Rolet, Zaituni - Sema", price: "Stream / Buy", category: "Music", src: "/assets/releases/sema.jpg", stream: "https://orcd.co/sema_djmura", bandcamp: "https://topklasssounds.bandcamp.com/" },
   { id: 7, name: "Mura, Dj Fita, N’Jiru - Kazi", price: "Stream / Buy", category: "Music", src: "/assets/releases/kazi.jpg", stream: "https://orcd.co/7aovpak", bandcamp: "https://topklasssounds.bandcamp.com/" },
   { id: 8, name: "Mura, Saint Evo, Labdi - Awuoro", price: "Stream / Buy", category: "Music", src: "/assets/releases/awuoro.jpg", stream: "https://orcd.co/775ryej", bandcamp: "https://topklasssounds.bandcamp.com/" },
@@ -85,12 +81,9 @@ export function Merch() {
               <span className="text-white/40 font-sans text-xs uppercase tracking-widest mb-2">
                 {product.category}
               </span>
-              <h2 className="text-xl font-heading font-black text-white uppercase tracking-tight mb-2 group-hover:text-brand-mustard transition-colors">
+              <h2 className="text-xl font-heading font-black text-white uppercase tracking-tight group-hover:text-brand-mustard transition-colors">
                 {product.name}
               </h2>
-              <span className="text-white/80 font-mono text-lg">
-                {product.price}
-              </span>
             </div>
           </div>
         ))}

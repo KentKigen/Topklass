@@ -74,7 +74,7 @@ export function Releases() {
             Label <span className="text-brand-mustard">Releases</span>
           </h1>
           <p className="text-white/70 font-sans font-light max-w-2xl text-lg leading-relaxed">
-            Explore the sonic world of DJ Mura K.E. From deep house to experimental electronic beats.
+            Explore the sonic world of Topklass. From deep house to experimental electronic beats.
           </p>
         </div>
       </div>

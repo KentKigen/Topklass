@@ -4,6 +4,16 @@ import { ImagePlaceholder } from "../components/ui/ImagePlaceholder";
 
 const events = [
   { 
+    id: 6, 
+    title: "Summertides", 
+    location: "Diani, KE", 
+    venue: "Diani Beach", 
+    date: "JUL 02-04, 2026", 
+    soldOut: false,
+    ticketUrl: "https://summertidesfestival.hustlesasa.shop/?utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAZXh0bgNhZW0DMTAwAHNydGMGYXBwX2lkDzkzNjYxOTc0MzM5MjQ1OQABp6gd03zCKZx6wJhzoJHfrhnrU9iYyE6ZNOaHt_BS9EC4sbUomdfoSQF_9z6X_aem_eP8Vh8YcfrQaWwQQOKr8aQ&utm_id=97760_v0_s00_e0_tv3",
+    description: "Summertides is an immersive music and arts festival set against the beautiful backdrop of the coast. Join us for a weekend of cutting-edge electronic music, community, and unforgettable memories."
+  },
+  { 
     id: 5, 
     title: "Magharibi Express", 
     location: "Nairobi, KE", 
