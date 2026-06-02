@@ -249,7 +249,7 @@ export function Home() {
   <div className="h-12 w-px bg-white/20" />
   <div className="flex flex-col">
     <span className="font-bold uppercase tracking-tight text-lg md:text-xl group-hover:text-brand-mustard transition-colors">
-      Virigo VI
+      Viringo VI
     </span>
     <span className="text-white/60 text-sm flex items-center gap-1.5">
       <MapPin className="w-3.5 h-3.5" /> Masshouse
