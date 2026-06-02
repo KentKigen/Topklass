@@ -239,23 +239,34 @@ export function Home() {
                 </Link>
 
                 {/* Event Badge 2 */}
-                <Link to="/events" className="group flex items-center gap-4 md:gap-6 bg-brand-black text-white px-6 py-4 rounded-sm hover:bg-brand-black/90 transition-colors shrink-0 shadow-lg">
-                  <div className="font-heading font-black text-xl text-brand-mustard text-center leading-none min-w-[3.5rem] shrink-0">
-                    DEC<br /><span className="text-2xl md:text-3xl">02</span>
-                  </div>
-                  <div className="h-12 w-px bg-white/20" />
-                  <div className="flex flex-col">
-                    <span className="font-bold uppercase tracking-tight text-lg md:text-xl group-hover:text-brand-mustard transition-colors">London, UK</span>
-                    <span className="text-white/60 text-sm flex items-center gap-1.5"><MapPin className="w-3.5 h-3.5" /> Printworks</span>
-                  </div>
-                  <div className="ml-4 opacity-0 group-hover:opacity-100 transition-opacity transform translate-x-[-10px] group-hover:translate-x-0 hidden sm:block">
-                    <ArrowRight className="w-5 h-5 text-brand-mustard" />
-                  </div>
-                </Link>
+<Link 
+  to="https://tokea.com/events/virigo-vi?utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAZXh0bgNhZW0DMTAwAHNydGMGYXBwX2lkDzkzNjYxOTc0MzM5MjQ1OQABp6W54nY2GXQCjF8sjBjaEx9oRoFy0IYqSjEF-03BNkC5At6QkzZcD50aPJFX_aem_Rwfl5L-qG6zUQSp2hdnO8w" 
+  className="group flex items-center gap-4 md:gap-6 bg-brand-black text-white px-6 py-4 rounded-sm hover:bg-brand-black/90 transition-colors shrink-0 shadow-lg"
+>
+  <div className="font-heading font-black text-xl text-brand-mustard text-center leading-none min-w-[3.5rem] shrink-0">
+    JUN<br /><span className="text-2xl md:text-3xl">05</span>
+  </div>
+  <div className="h-12 w-px bg-white/20" />
+  <div className="flex flex-col">
+    <span className="font-bold uppercase tracking-tight text-lg md:text-xl group-hover:text-brand-mustard transition-colors">
+      Virigo VI
+    </span>
+    <span className="text-white/60 text-sm flex items-center gap-1.5">
+      <MapPin className="w-3.5 h-3.5" /> Masshouse
+    </span>
+  </div>
+  <div className="ml-4 opacity-0 group-hover:opacity-100 transition-opacity transform translate-x-[-10px] group-hover:translate-x-0 hidden sm:block">
+    <ArrowRight className="w-5 h-5 text-brand-mustard" />
+  </div>
+</Link>
 
-                <Link to="/events" className="shrink-0 ml-2 font-bold uppercase tracking-widest text-brand-mustard hover:text-white hover:underline underline-offset-4 flex items-center gap-2 px-2 py-4 transition-colors">
-                  All Dates <ArrowRight className="w-5 h-5" />
-                </Link>
+<Link 
+  to="https://tokea.com/events/virigo-vi?utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAZXh0bgNhZW0DMTAwAHNydGMGYXBwX2lkDzkzNjYxOTc0MzM5MjQ1OQABp6W54nY2GXQCjF8sjBjaEx9oRoFy0IYqSjEF-03BNkC5At6QkzZcD50aPJFX_aem_Rwfl5L-qG6zUQSp2hdnO8w" 
+  className="shrink-0 ml-2 font-bold uppercase tracking-widest text-brand-mustard hover:text-white hover:underline underline-offset-4 flex items-center gap-2 px-2 py-4 transition-colors"
+>
+  All Dates <ArrowRight className="w-5 h-5" />
+</Link>
+
               </div>
             </div>
           </div>
