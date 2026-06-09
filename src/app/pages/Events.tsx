@@ -65,7 +65,7 @@ export function Events() {
           {events.slice(0, 3).map((event) => (
             <div 
               key={event.id} 
-              className="group flex flex-col sm:flex-row justify-between items-start sm:items-center p-8 bg-brand-black border border-white/10 hover:border-brand-mustard transition-colors relative overflow-hidden cursor-pointer focus-within:ring-2 focus-within:ring-brand-mustard outline-none"
+              className="group flex flex-col sm:flex-row justify-between items-start sm:items-center p-5 sm:p-8 bg-brand-black border border-white/10 hover:border-brand-mustard transition-colors relative overflow-hidden cursor-pointer focus-within:ring-2 focus-within:ring-brand-mustard outline-none"
               onClick={() => setSelectedEvent(event)}
               tabIndex={0}
               onKeyDown={(e) => {
@@ -80,33 +80,33 @@ export function Events() {
               <div className="flex flex-col md:flex-row gap-6 md:gap-12 md:items-center w-full z-10">
                 
                 {/* Date Badge */}
-                <div className="flex-shrink-0 flex flex-col items-center justify-center w-24 h-24 bg-brand-green/20 border border-brand-green/40 group-hover:bg-brand-mustard group-hover:border-brand-mustard transition-colors">
-                  <span className="text-brand-mustard group-hover:text-brand-black font-heading font-black text-2xl uppercase leading-none mb-1">
+                <div className="flex-shrink-0 flex flex-col items-center justify-center w-20 h-20 sm:w-24 sm:h-24 bg-brand-green/20 border border-brand-green/40 group-hover:bg-brand-mustard group-hover:border-brand-mustard transition-colors">
+                  <span className="text-brand-mustard group-hover:text-brand-black font-heading font-black text-xl sm:text-2xl uppercase leading-none mb-1">
                     {event.date.split(' ')[1].replace(',', '')}
                   </span>
-                  <span className="text-brand-green group-hover:text-brand-black/70 font-sans font-bold text-xs uppercase tracking-widest">
+                  <span className="text-brand-green group-hover:text-brand-black/70 font-sans font-bold text-[10px] sm:text-xs uppercase tracking-widest">
                     {event.date.split(' ')[0]}
                   </span>
                 </div>
 
-                <div className="flex-1">
+                <div className="flex-1 min-w-0">
                   <h3 className="text-2xl md:text-3xl font-heading font-black text-white uppercase tracking-tight mb-2 group-hover:text-brand-mustard transition-colors">
                     {event.title}
                   </h3>
-                  <div className="flex items-center gap-2 text-white/50 font-sans text-sm uppercase tracking-widest">
-                    <MapPin className="w-4 h-4 text-brand-mustard" />
-                    {event.venue}, {event.location}
+                  <div className="flex items-center gap-2 text-white/50 font-sans text-xs sm:text-sm uppercase tracking-widest leading-relaxed">
+                    <MapPin className="w-5 h-5 md:w-4 md:h-4 text-brand-mustard shrink-0 align-middle" />
+                    <span className="truncate">{event.venue}, {event.location}</span>
                   </div>
                 </div>
 
-                <div className="mt-4 sm:mt-0 flex items-center gap-4">
+                <div className="mt-4 sm:mt-0 flex items-center gap-4 w-full sm:w-auto">
                   {event.soldOut ? (
-                    <span className="inline-block bg-white/10 text-white/50 px-4 py-2 font-heading font-black text-sm uppercase tracking-widest rounded-sm border border-white/10">
+                    <span className="inline-block bg-white/10 text-white/50 px-4 py-2 font-heading font-black text-xs sm:text-sm uppercase tracking-widest rounded-sm border border-white/10 text-center w-full sm:w-auto">
                       Sold Out
                     </span>
                   ) : (
                     <button 
-                      className="inline-flex items-center gap-2 bg-transparent text-white px-6 py-3 font-heading font-black text-sm uppercase tracking-widest border border-white/20 hover:bg-white hover:text-brand-black transition-all focus:outline-none"
+                      className="inline-flex items-center justify-center gap-2 bg-transparent text-white px-6 py-3 font-heading font-black text-xs sm:text-sm uppercase tracking-widest border border-white/20 hover:bg-white hover:text-brand-black transition-all focus:outline-none w-full sm:w-auto min-h-[44px]"
                       aria-label={`Get tickets for ${event.title}`}
                     >
                       Tickets <ArrowRight className="w-4 h-4" />
@@ -126,24 +126,24 @@ export function Events() {
       {/* Event Detail Modal */}
       {selectedEvent && (
         <div 
-          className="fixed inset-0 z-[9999] flex items-center justify-center p-4 sm:p-6 bg-brand-black/98 backdrop-blur-xl"
+          className="fixed inset-0 z-[9999] flex items-center justify-center p-4 sm:p-6 bg-brand-black/98 backdrop-blur-xl animate-in fade-in duration-200"
           onClick={() => setSelectedEvent(null)}
         >
           <div 
-            className="bg-brand-black border border-brand-mustard/30 w-full max-w-3xl max-h-[90vh] overflow-y-auto flex flex-col relative shadow-2xl p-8 md:p-14"
+            className="bg-brand-black border border-brand-mustard/30 w-full max-w-3xl max-h-[90vh] overflow-y-auto flex flex-col relative shadow-2xl p-6 md:p-14 pt-16 md:pt-14"
             role="dialog"
             aria-modal="true"
             onClick={(e) => e.stopPropagation()}
           >
             <button 
-              className="group absolute top-6 right-6 z-10 w-12 h-12 bg-white/10 hover:bg-brand-mustard flex items-center justify-center rounded-full transition-all duration-300 focus:outline-none"
+              className="group absolute top-4 right-4 z-10 w-11 h-11 bg-white/10 hover:bg-brand-mustard flex items-center justify-center rounded-full transition-all duration-300 focus:outline-none"
               onClick={() => setSelectedEvent(null)}
               aria-label="Close modal"
             >
               <X className="w-6 h-6 text-white group-hover:text-brand-black transition-colors" />
             </button>
             
-            <div className="flex flex-col gap-8 mb-8 mt-8">
+            <div className="flex flex-col gap-6 mb-6">
               <div>
                 <span className="text-brand-mustard font-sans font-bold text-xs uppercase tracking-widest mb-4 block">Official Tour Date</span>
                 <h2 className="text-4xl md:text-6xl font-heading font-black text-white uppercase tracking-tighter leading-none mb-4">{selectedEvent.title}</h2>

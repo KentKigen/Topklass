@@ -106,7 +106,7 @@ export function Merch() {
             onClick={(e) => e.stopPropagation()}
           >
             <button
-              className="group absolute top-6 right-6 z-10 w-12 h-12 bg-white/10 hover:bg-brand-mustard flex items-center justify-center rounded-full transition-all duration-300 focus:outline-none"
+              className="group absolute top-4 right-4 z-10 w-11 h-11 bg-brand-black/60 hover:bg-brand-mustard border border-white/10 backdrop-blur-sm flex items-center justify-center rounded-full transition-all duration-300 focus:outline-none"
               onClick={() => {
                 setSelectedProduct(null);
                 setIsAdded(false);
@@ -125,7 +125,7 @@ export function Merch() {
               />
             </div>
 
-            <div className="w-full md:w-1/2 p-8 md:p-12 flex flex-col justify-center bg-brand-black">
+            <div className="w-full md:w-1/2 p-5 md:p-12 flex flex-col justify-center bg-brand-black">
               <span className="text-brand-mustard font-sans text-xs uppercase tracking-widest mb-4">
                 {selectedProduct.category}
               </span>

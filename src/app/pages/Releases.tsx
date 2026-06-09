@@ -67,10 +67,10 @@ const releases = [
 
 export function Releases() {
   return (
-    <div className="container mx-auto px-4 py-8 md:py-12 min-h-screen">
-      <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 pb-6 border-b border-white/10">
+    <div className="container mx-auto px-4 py-6 md:py-12 min-h-screen">
+      <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 pb-6 border-b border-white/10">
         <div>
-          <h1 className="text-5xl md:text-7xl font-heading font-black text-white uppercase tracking-tighter mb-4">
+          <h1 className="text-6xl md:text-7xl font-heading font-black text-white uppercase tracking-tighter mb-4">
             Label <span className="text-brand-mustard">Releases</span>
           </h1>
           <p className="text-white/70 font-sans font-light max-w-2xl text-lg leading-relaxed">

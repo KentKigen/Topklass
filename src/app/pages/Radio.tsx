@@ -57,31 +57,33 @@ export function Radio() {
               ></iframe>
               <div className="absolute inset-0 bg-gradient-to-t from-brand-black via-brand-black/20 to-transparent pointer-events-none" />
               
-              <div className="relative z-10 p-6 md:p-10 w-full">
-                <div className="flex justify-between items-start mb-6">
-                  <span className="bg-brand-mustard/10 border border-brand-mustard/30 text-brand-mustard px-3 py-1 font-sans font-bold tracking-widest text-xs uppercase flex items-center gap-2 rounded-full w-max backdrop-blur-sm shadow-[0_0_15px_rgba(212,160,23,0.3)]">
+              <div className="relative z-10 p-5 md:p-10 w-full">
+                <div className="flex justify-between items-start mb-4 md:mb-6">
+                  <span className="bg-brand-mustard/10 border border-brand-mustard/30 text-brand-mustard px-3 py-1 font-sans font-bold tracking-widest text-[10px] md:text-xs uppercase flex items-center gap-2 rounded-full w-max backdrop-blur-sm shadow-[0_0_15px_rgba(212,160,23,0.3)]">
                     <span className="w-2 h-2 rounded-full bg-brand-mustard animate-pulse shadow-[0_0_5px_#D4A017]" /> Live Now
                   </span>
-                  <button className="text-white/60 hover:text-white transition-colors" aria-label="Share">
+                  <button className="w-11 h-11 flex items-center justify-center text-white/60 hover:text-white transition-colors focus:outline-none" aria-label="Share">
                     <Share2 className="w-5 h-5" />
                   </button>
                 </div>
 
-                <h2 className="text-4xl md:text-5xl font-heading font-black text-white uppercase tracking-tighter mb-1">
+                <h2 className="text-2xl md:text-5xl font-heading font-black text-white uppercase tracking-tighter mb-2 leading-tight">
                   Radio Topklass 001 with Mura
                 </h2>
-                <p className="text-lg md:text-xl text-white/70 font-sans mb-8">
+                <p className="text-xs md:text-lg text-white/70 font-sans mb-4 md:mb-8 line-clamp-2 md:line-clamp-none max-w-2xl">
                   Mura takes us on a journey through some of the best Afrohouse & 3-Step jams from the continent to the world.
                 </p>
 
                 {/* Professional Player Controls */}
-                <div className="flex flex-col gap-4">
-                  {/* Timeline */}
-                  <div className="flex items-center gap-4 text-xs font-mono text-white/50">
+                <div className="flex flex-col gap-3 md:gap-4">
+                  {/* Timeline with expanded touch target */}
+                  <div className="flex items-center gap-4 text-[10px] md:text-xs font-mono text-white/50">
                     <span>45:12</span>
-                    <div className="flex-1 h-1.5 bg-white/10 rounded-full overflow-hidden cursor-pointer group/timeline">
-                      <div className="h-full bg-brand-mustard w-1/3 relative group-hover/timeline:bg-amber-400 transition-colors">
-                        <div className="absolute right-0 top-1/2 -translate-y-1/2 w-3 h-3 bg-white rounded-full shadow opacity-0 group-hover/timeline:opacity-100 transition-opacity" />
+                    <div className="flex-1 py-3 cursor-pointer group/timeline">
+                      <div className="h-1.5 bg-white/10 rounded-full overflow-hidden relative">
+                        <div className="h-full bg-brand-mustard w-1/3 relative group-hover/timeline:bg-amber-400 transition-colors">
+                          <div className="absolute right-0 top-1/2 -translate-y-1/2 w-3 h-3 bg-white rounded-full shadow opacity-100 md:opacity-0 group-hover/timeline:opacity-100 transition-opacity" />
+                        </div>
                       </div>
                     </div>
                     <span>64:00</span>
@@ -89,17 +91,18 @@ export function Radio() {
                   
                   {/* Buttons */}
                   <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-6">
-                      <button className="text-white/70 hover:text-white transition-colors focus:outline-none"><Rewind className="w-6 h-6" /></button>
+                    <div className="flex items-center gap-4 md:gap-6">
+                      <button className="w-11 h-11 flex items-center justify-center text-white/70 hover:text-white hover:bg-white/5 rounded-full transition-all focus:outline-none" aria-label="Rewind"><Rewind className="w-5 h-5 md:w-6 md:h-6" /></button>
                       <a 
                         href="https://www.youtube.com/watch?v=C96afQY6Oc0&list=RDC96afQY6Oc0&start_radio=1" 
                         target="_blank" 
                         rel="noopener noreferrer"
                         className="text-brand-mustard hover:scale-105 hover:text-amber-400 transition-all focus:outline-none drop-shadow-[0_0_10px_rgba(212,160,23,0.4)]"
+                        aria-label="Pause"
                       >
-                        <PauseCircle className="w-16 h-16" fill="currentColor" stroke="black" strokeWidth={1} />
+                        <PauseCircle className="w-12 h-12 md:w-16 md:h-16" fill="currentColor" stroke="black" strokeWidth={1} />
                       </a>
-                      <button className="text-white/70 hover:text-white transition-colors focus:outline-none"><FastForward className="w-6 h-6" /></button>
+                      <button className="w-11 h-11 flex items-center justify-center text-white/70 hover:text-white hover:bg-white/5 rounded-full transition-all focus:outline-none" aria-label="Fast Forward"><FastForward className="w-5 h-5 md:w-6 md:h-6" /></button>
                     </div>
                     <div className="hidden md:flex items-center gap-3">
                       <Button variant="outline" size="sm" className="h-9 px-4 rounded-full border-white/20 text-white hover:bg-white/10 hover:border-white/40">

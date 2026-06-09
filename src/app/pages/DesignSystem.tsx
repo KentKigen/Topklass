@@ -21,6 +21,7 @@ export function DesignSystem() {
             <a href="#typography" className="text-white/60 hover:text-white uppercase tracking-widest text-sm font-semibold transition-colors">Typography</a>
             <a href="#components" className="text-white/60 hover:text-white uppercase tracking-widest text-sm font-semibold transition-colors">Components</a>
             <a href="#export" className="text-white/60 hover:text-white uppercase tracking-widest text-sm font-semibold transition-colors">Export Settings</a>
+            <a href="#mobile-responsive" className="text-white/60 hover:text-white uppercase tracking-widest text-sm font-semibold transition-colors">Mobile Responsive</a>
           </div>
         </div>
 
@@ -185,6 +186,61 @@ export function DesignSystem() {
                     <span className="text-white">1440px (lg: 1024px, xl: 1280px)</span>
                   </li>
                 </ul>
+              </div>
+            </div>
+          </section>
+
+          {/* Mobile Responsiveness & Micro-interactions */}
+          <section id="mobile-responsive">
+            <h2 className="text-3xl font-heading font-black text-white uppercase tracking-tighter mb-8 flex items-center gap-4">
+              <span className="w-8 h-1 bg-brand-mustard" /> Mobile Responsiveness
+            </h2>
+            <div className="border border-white/10 p-8 bg-white/[0.02] flex flex-col gap-8">
+              <div>
+                <h4 className="text-brand-mustard font-bold uppercase tracking-widest text-sm mb-4">Mobile Spacing & Typography Rules</h4>
+                <p className="text-white/70 text-sm mb-4 leading-relaxed">
+                  We use fluid scaling utilizing CSS <code>clamp()</code> so headings and core container padding scale dynamically down for mobile viewports without breaking desktop composition.
+                </p>
+                <div className="grid md:grid-cols-2 gap-4 font-mono text-xs text-white/60">
+                  <div className="bg-brand-black p-4 border border-white/5 rounded-sm">
+                    <span className="text-white font-bold block mb-1">Typography Clamp Settings:</span>
+                    H1: clamp(2.25rem, 5vw + 1rem, 3rem)<br />
+                    H2: clamp(1.75rem, 3.5vw + 0.75rem, 2.25rem)<br />
+                    H3: clamp(1.35rem, 2.5vw + 0.5rem, 1.75rem)
+                  </div>
+                  <div className="bg-brand-black p-4 border border-white/5 rounded-sm">
+                    <span className="text-white font-bold block mb-1">Spacing Clamp Settings:</span>
+                    --spacing-4: clamp(0.875rem, 2vw, 1rem)<br />
+                    --spacing-6: clamp(1.125rem, 3vw, 1.5rem)<br />
+                    --spacing-10: clamp(1.5rem, 5vw, 2.5rem)
+                  </div>
+                </div>
+              </div>
+
+              <div className="w-full h-px bg-white/10" />
+
+              <div>
+                <h4 className="text-brand-mustard font-bold uppercase tracking-widest text-sm mb-4">Interactive Mobile Touch Target Sandbox</h4>
+                <p className="text-white/70 text-sm mb-6 leading-relaxed">
+                  Touch targets are guaranteed to be at least <code>44x44px</code>. Hover fallbacks prevent sticky states on touch screen devices by checking hover media support. Try the demo element below.
+                </p>
+                
+                <div className="flex flex-col sm:flex-row gap-6 items-start sm:items-center p-6 bg-brand-black border border-white/5">
+                  <div className="flex flex-col gap-2">
+                    <span className="text-white/50 text-[10px] uppercase font-bold tracking-widest">Touch Target Demo Card</span>
+                    <div className="touch-target touch-hover bg-brand-green/20 border border-brand-green text-white px-6 py-4 rounded-sm flex items-center gap-3 cursor-pointer select-none premium-transition">
+                      <span className="w-2 h-2 rounded-full bg-brand-mustard animate-pulse" />
+                      <span className="font-heading font-black text-sm uppercase tracking-wider">Tap Me (44px+)</span>
+                    </div>
+                  </div>
+                  
+                  <div className="flex-1 text-xs text-white/50 flex flex-col gap-2">
+                    <span className="text-white/70 font-bold">Applied Utilities:</span>
+                    <code className="text-brand-mustard bg-white/5 p-1 px-2 rounded-sm w-max">.touch-target</code>
+                    <code className="text-brand-mustard bg-white/5 p-1 px-2 rounded-sm w-max">.touch-hover</code>
+                    <code className="text-brand-mustard bg-white/5 p-1 px-2 rounded-sm w-max">.premium-transition</code>
+                  </div>
+                </div>
               </div>
             </div>
           </section>
