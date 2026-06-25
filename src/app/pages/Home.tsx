@@ -54,26 +54,26 @@ const releases = [
 export function Home() {
   const [activeIndex, setActiveIndex] = useState(0);
 
-  // Auto-advance coverflow on mobile
+  // Auto-advance coverflow on mobile with reset on manual interaction
   useEffect(() => {
-    const timer = setInterval(() => {
+    const timer = setTimeout(() => {
       setActiveIndex(prev => (prev + 1) % releases.length);
-    }, 3500);
-    return () => clearInterval(timer);
-  }, []);
+    }, 2200); // 2.2 seconds between automatic turns
+    return () => clearTimeout(timer);
+  }, [activeIndex]);
 
   const slickSettings = {
     dots: false,
     infinite: true,
-    speed: 600,
+    speed: 1000, // 1.0 second transition for smooth flow
     slidesToShow: 3,
     slidesToScroll: 1,
     arrows: true,
     prevArrow: <CustomPrevArrow />,
     nextArrow: <CustomNextArrow />,
     autoplay: true,
-    autoplaySpeed: 4000,
-    cssEase: "cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+    autoplaySpeed: 2000, // 2.0 seconds pause time for faster flow
+    cssEase: "cubic-bezier(0.25, 1, 0.5, 1)", // Elegant ease-out transition
     responsive: [
       { breakpoint: 1024, settings: { slidesToShow: 3, arrows: true } },
       {
@@ -85,7 +85,9 @@ export function Home() {
           arrows: false,
           dots: false,
           autoplay: true,
-          autoplaySpeed: 3500,
+          autoplaySpeed: 2000,
+          speed: 1000,
+          cssEase: "cubic-bezier(0.25, 1, 0.5, 1)",
         }
       }
     ]
@@ -244,7 +246,7 @@ export function Home() {
                       z: isCenter ? 0 : -80,
                       x: offset === -1 ? "14%" : offset === 1 ? "-14%" : "0%",
                     }}
-                    transition={{ type: "spring", stiffness: 260, damping: 28 }}
+                    transition={{ ease: [0.25, 1, 0.5, 1], duration: 1.2 }}
                     style={{ transformStyle: "preserve-3d", zIndex: isCenter ? 10 : 1, flex: "0 0 72%" }}
                     className="relative cursor-pointer"
                   >
