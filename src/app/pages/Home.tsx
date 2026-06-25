@@ -58,22 +58,22 @@ export function Home() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setActiveIndex(prev => (prev + 1) % releases.length);
-    }, 2200); // 2.2 seconds between automatic turns
+    }, 2000); // 2 seconds between automatic turns
     return () => clearTimeout(timer);
   }, [activeIndex]);
 
   const slickSettings = {
     dots: false,
     infinite: true,
-    speed: 1000, // 1.0 second transition for smooth flow
+    speed: 1600, // Slow, smooth continuous glide
     slidesToShow: 3,
     slidesToScroll: 1,
     arrows: true,
     prevArrow: <CustomPrevArrow />,
     nextArrow: <CustomNextArrow />,
     autoplay: true,
-    autoplaySpeed: 2000, // 2.0 seconds pause time for faster flow
-    cssEase: "cubic-bezier(0.25, 1, 0.5, 1)", // Elegant ease-out transition
+    autoplaySpeed: 400, // Brief pause before starting next turn (adds up to 2 seconds total cycle)
+    cssEase: "cubic-bezier(0.42, 0, 0.58, 1)", // Premium ease-in-out rotation curve
     responsive: [
       { breakpoint: 1024, settings: { slidesToShow: 3, arrows: true } },
       {
@@ -85,9 +85,9 @@ export function Home() {
           arrows: false,
           dots: false,
           autoplay: true,
-          autoplaySpeed: 2000,
-          speed: 1000,
-          cssEase: "cubic-bezier(0.25, 1, 0.5, 1)",
+          autoplaySpeed: 400,
+          speed: 1600,
+          cssEase: "cubic-bezier(0.42, 0, 0.58, 1)",
         }
       }
     ]
@@ -246,7 +246,7 @@ export function Home() {
                       z: isCenter ? 0 : -80,
                       x: offset === -1 ? "14%" : offset === 1 ? "-14%" : "0%",
                     }}
-                    transition={{ ease: [0.25, 1, 0.5, 1], duration: 1.2 }}
+                    transition={{ ease: "easeInOut", duration: 1.7 }}
                     style={{ transformStyle: "preserve-3d", zIndex: isCenter ? 10 : 1, flex: "0 0 72%" }}
                     className="relative cursor-pointer"
                   >
