@@ -40,6 +40,7 @@ const CustomNextArrow = (props: any) => {
 };
 
 const releases = [
+  { id: 10, title: "Mura, DJayPaps, Hiribae - Saka Mali", src: "/assets/releases/saka-mali.jpg", link: "https://open.spotify.com/album/4G2ybqvYcxfzF9ZoqTTlQM?si=I8HEPZKUQ_SFsENjf2UgXA" },
   { id: 1, title: "Mura, Hiribae, Ghedi, Ayrosh - My Lover", src: "/assets/releases/my-lover.jpg", link: "https://orcd.co/my-lover-presave" },
   { id: 2, title: "Mura, Sjef Rolet, Zaituni - Sema", src: "/assets/releases/sema.jpg", link: "https://orcd.co/sema_djmura" },
   { id: 3, title: "Mura, Dj Fita, N'Jiru - Kazi", src: "/assets/releases/kazi.jpg", link: "https://orcd.co/7aovpak" },

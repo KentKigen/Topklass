@@ -3,6 +3,12 @@ import { Play, Disc } from "lucide-react";
 
 const releases = [
   { 
+    id: 10, 
+    title: "Mura, DJayPaps, Hiribae - Saka Mali", 
+    src: "/assets/releases/saka-mali.jpg", 
+    stream: "https://open.spotify.com/album/4G2ybqvYcxfzF9ZoqTTlQM?si=I8HEPZKUQ_SFsENjf2UgXA" 
+  },
+  { 
     id: 1, 
     title: "Mura, Hiribae, Ghedi, Ayrosh - My Lover", 
     src: "/assets/releases/my-lover.jpg", 

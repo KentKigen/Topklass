@@ -124,15 +124,15 @@ export function Radio() {
             <h3 className="text-xl font-heading font-black text-white uppercase tracking-tight mb-4 flex items-center gap-2">
               <Disc className="w-5 h-5 text-brand-mustard" /> Latest Release
             </h3>
-            <a href="https://orcd.co/my-lover-presave" target="_blank" rel="noopener noreferrer" className="block outline-none">
+            <a href="https://open.spotify.com/album/4G2ybqvYcxfzF9ZoqTTlQM?si=I8HEPZKUQ_SFsENjf2UgXA" target="_blank" rel="noopener noreferrer" className="block outline-none">
               <div className="relative aspect-square rounded-lg overflow-hidden mb-4 border border-white/10 shadow-xl">
-                <img src="/assets/releases/my-lover.jpg" alt="My Lover Artwork" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                <img src="/assets/releases/saka-mali.jpg" alt="Saka Mali Artwork" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                 <div className="absolute inset-0 bg-brand-mustard/0 group-hover:bg-brand-mustard/10 transition-colors" />
               </div>
               <h4 className="text-white font-heading font-bold uppercase tracking-tight group-hover:text-brand-mustard transition-colors leading-tight mb-1">
-                My Lover
+                Saka Mali
               </h4>
-              <p className="text-white/50 text-xs font-sans uppercase tracking-[0.2em]">Mura, Hiribae, Ghedi, Ayrosh</p>
+              <p className="text-white/50 text-xs font-sans uppercase tracking-[0.2em]">Mura, DJayPaps, Hiribae</p>
             </a>
           </div>
 
