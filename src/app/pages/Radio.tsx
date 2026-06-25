@@ -1,12 +1,11 @@
-import { PlayCircle, Headphones, Radio as RadioIcon, PauseCircle, FastForward, Rewind, Share2, Disc } from "lucide-react";
-import { ImagePlaceholder } from "../components/ui/ImagePlaceholder";
+import { Headphones, Radio as RadioIcon, Share2, Disc } from "lucide-react";
 import { Button } from "../components/ui/Button";
 
 const episodes = [
-  { id: 5, title: "Radio Topklass 005 with Mura", guest: "Mura the DJ", duration: "120 min" },
+  { id: 5, title: "Radio Topklass 005 with Mura", guest: "Mura", duration: "120 min" },
   { id: 4, title: "Radio Topklass 004 with Mura", guest: "Vigro Deep (Guest)", duration: "120 min" },
   { id: 3, title: "Radio Topklass 003 with Mura", guest: "Uncle Waffles (Guest)", duration: "120 min" },
-  { id: 2, title: "Radio Topklass 002 with Mura", guest: "Mura the DJ", duration: "120 min" },
+  { id: 2, title: "Radio Topklass 002 with Mura", guest: "Mura", duration: "120 min" },
 ];
 
 const SpotifyIcon = ({ className }: { className?: string }) => (
@@ -32,7 +31,7 @@ export function Radio() {
                 TopKlass <span className="text-brand-mustard">Radio</span>
               </h1>
               <p className="text-white/80 font-sans font-medium max-w-2xl text-lg leading-relaxed drop-shadow-md">
-                The sound of the underground, curated weekly by DJ Mura. Tune in to the latest selections.
+                The sound of the underground, curated weekly by Mura. Tune in to the latest selections.
               </p>
             </div>
           </div>
@@ -46,72 +45,40 @@ export function Radio() {
         <div className="lg:col-span-8 flex-1 flex flex-col gap-12">
           
           {/* Hero Player */}
-          <div className="bg-brand-black border border-white/10 relative overflow-hidden group shadow-2xl rounded-xl ring-1 ring-white/5">
-            <div className="aspect-video md:aspect-[21/9] relative bg-brand-black flex flex-col justify-end overflow-hidden">
+          <div className="bg-[#121212] border border-white/10 relative overflow-hidden group shadow-2xl rounded-xl ring-1 ring-white/5">
+            {/* Video Container - clean 16:9 aspect ratio */}
+            <div className="aspect-video relative bg-brand-black overflow-hidden">
               <iframe 
-                src="https://www.youtube.com/embed/C96afQY6Oc0?autoplay=0&list=RDC96afQY6Oc0" 
+                src="https://www.youtube.com/embed/C96afQY6Oc0?autoplay=0" 
                 title="Radio Topklass 001 with Mura"
-                className="absolute inset-0 w-full h-full border-0 opacity-80"
+                className="absolute inset-0 w-full h-full border-0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
                 allowFullScreen
               ></iframe>
-              <div className="absolute inset-0 bg-gradient-to-t from-brand-black via-brand-black/20 to-transparent pointer-events-none" />
-              
-              <div className="relative z-10 p-5 md:p-10 w-full">
-                <div className="flex justify-between items-start mb-4 md:mb-6">
-                  <span className="bg-brand-mustard/10 border border-brand-mustard/30 text-brand-mustard px-3 py-1 font-sans font-bold tracking-widest text-[10px] md:text-xs uppercase flex items-center gap-2 rounded-full w-max backdrop-blur-sm shadow-[0_0_15px_rgba(212,160,23,0.3)]">
-                    <span className="w-2 h-2 rounded-full bg-brand-mustard animate-pulse shadow-[0_0_5px_#D4A017]" /> Live Now
-                  </span>
-                  <button className="w-11 h-11 flex items-center justify-center text-white/60 hover:text-white transition-colors focus:outline-none" aria-label="Share">
-                    <Share2 className="w-5 h-5" />
+            </div>
+            
+            {/* Metadata and Details below the video */}
+            <div className="p-6 md:p-8 w-full border-t border-white/5">
+              <div className="flex flex-wrap justify-between items-center gap-4 mb-4">
+                <span className="bg-brand-mustard/10 border border-brand-mustard/30 text-brand-mustard px-3 py-1 font-sans font-bold tracking-widest text-[10px] md:text-xs uppercase flex items-center gap-2 rounded-full w-max backdrop-blur-sm shadow-[0_0_15px_rgba(212,160,23,0.15)]">
+                  <span className="w-2 h-2 rounded-full bg-brand-mustard animate-pulse shadow-[0_0_5px_#D4A017]" /> Live Now
+                </span>
+                <div className="flex items-center gap-3">
+                  <Button variant="outline" size="sm" className="h-9 px-4 rounded-full border-white/20 text-white hover:bg-white/10 hover:border-white/40 text-[10px] md:text-xs font-sans font-bold uppercase tracking-wider">
+                    View Tracklist
+                  </Button>
+                  <button className="touch-target flex items-center justify-center gap-2 px-4 py-2 border border-white/10 hover:border-white/30 text-white/80 hover:text-white rounded-full text-[10px] md:text-xs font-sans font-bold transition-all uppercase tracking-wider bg-white/5" aria-label="Share">
+                    <Share2 className="w-4.5 h-4.5" /> Share
                   </button>
                 </div>
-
-                <h2 className="text-2xl md:text-5xl font-heading font-black text-white uppercase tracking-tighter mb-2 leading-tight">
-                  Radio Topklass 001 with Mura
-                </h2>
-                <p className="text-xs md:text-lg text-white/70 font-sans mb-4 md:mb-8 line-clamp-2 md:line-clamp-none max-w-2xl">
-                  Mura takes us on a journey through some of the best Afrohouse & 3-Step jams from the continent to the world.
-                </p>
-
-                {/* Professional Player Controls */}
-                <div className="flex flex-col gap-3 md:gap-4">
-                  {/* Timeline with expanded touch target */}
-                  <div className="flex items-center gap-4 text-[10px] md:text-xs font-mono text-white/50">
-                    <span>45:12</span>
-                    <div className="flex-1 py-3 cursor-pointer group/timeline">
-                      <div className="h-1.5 bg-white/10 rounded-full overflow-hidden relative">
-                        <div className="h-full bg-brand-mustard w-1/3 relative group-hover/timeline:bg-amber-400 transition-colors">
-                          <div className="absolute right-0 top-1/2 -translate-y-1/2 w-3 h-3 bg-white rounded-full shadow opacity-100 md:opacity-0 group-hover/timeline:opacity-100 transition-opacity" />
-                        </div>
-                      </div>
-                    </div>
-                    <span>64:00</span>
-                  </div>
-                  
-                  {/* Buttons */}
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-4 md:gap-6">
-                      <button className="w-11 h-11 flex items-center justify-center text-white/70 hover:text-white hover:bg-white/5 rounded-full transition-all focus:outline-none" aria-label="Rewind"><Rewind className="w-5 h-5 md:w-6 md:h-6" /></button>
-                      <a 
-                        href="https://www.youtube.com/watch?v=C96afQY6Oc0&list=RDC96afQY6Oc0&start_radio=1" 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className="text-brand-mustard hover:scale-105 hover:text-amber-400 transition-all focus:outline-none drop-shadow-[0_0_10px_rgba(212,160,23,0.4)]"
-                        aria-label="Pause"
-                      >
-                        <PauseCircle className="w-12 h-12 md:w-16 md:h-16" fill="currentColor" stroke="black" strokeWidth={1} />
-                      </a>
-                      <button className="w-11 h-11 flex items-center justify-center text-white/70 hover:text-white hover:bg-white/5 rounded-full transition-all focus:outline-none" aria-label="Fast Forward"><FastForward className="w-5 h-5 md:w-6 md:h-6" /></button>
-                    </div>
-                    <div className="hidden md:flex items-center gap-3">
-                      <Button variant="outline" size="sm" className="h-9 px-4 rounded-full border-white/20 text-white hover:bg-white/10 hover:border-white/40">
-                        View Tracklist
-                      </Button>
-                    </div>
-                  </div>
-                </div>
               </div>
+
+              <h2 className="text-2xl md:text-4xl font-heading font-black text-white uppercase tracking-tighter mb-3 leading-tight">
+                Radio Topklass 001 with Mura
+              </h2>
+              <p className="text-sm md:text-base text-white/70 font-sans leading-relaxed max-w-3xl">
+                Mura takes us on a journey through some of the best Afrohouse & 3-Step jams from the continent to the world.
+              </p>
             </div>
           </div>
 

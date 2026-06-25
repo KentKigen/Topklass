@@ -21,9 +21,9 @@ const events = [
     date: "AUG 30, 2025", 
     soldOut: false,
     ticketUrl: "https://magharibiexpress.hustlesasa.shop",
-    description: "Magharibi Express celebrates original and authentic music deeply rooted in African culture. Founded by the visionary DJ Mura and the talented Ally Fresh, this dynamic duo is revolutionizing the music industry. Through a blend of captivating DJ mixes on digital platforms like YouTube and Instagram and electrifying live events, Magharibi Express is redefining the music experience."
+    description: "Magharibi Express celebrates original and authentic music deeply rooted in African culture. Founded by the visionary Mura and the talented Ally Fresh, this dynamic duo is revolutionizing the music industry. Through a blend of captivating DJ mixes on digital platforms like YouTube and Instagram and electrifying live events, Magharibi Express is redefining the music experience."
   },
-  { id: 1, title: "Mura The DJ Experience", location: "Nairobi, KE", venue: "The Alchemist Bar", date: "Nov 15, 2025", soldOut: true },
+  { id: 1, title: "Mura Experience", location: "Nairobi, KE", venue: "The Alchemist Bar", date: "Nov 15, 2025", soldOut: true },
   { id: 2, title: "African Electronic Tour", location: "London, UK", venue: "Printworks", date: "Dec 02, 2025", soldOut: false },
   { id: 3, title: "Amapiano Showcase", location: "Johannesburg, SA", venue: "Zone 6 Venue", date: "Jan 18, 2026", soldOut: false },
   { id: 4, title: "Boiler Room Series", location: "Cape Town, SA", venue: "Camps Bay", date: "Mar 10, 2026", soldOut: false },
