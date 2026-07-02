@@ -54,14 +54,16 @@ const releases = [
 
 export function Home() {
   const [scrollProgress, setScrollProgress] = useState(0);
+  const [scrollLeft, setScrollLeft] = useState(0);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const handleScroll = () => {
     if (!scrollRef.current) return;
-    const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
+    const { scrollLeft: sLeft, scrollWidth, clientWidth } = scrollRef.current;
+    setScrollLeft(sLeft);
     const maxScroll = scrollWidth - clientWidth;
     if (maxScroll <= 0) return;
-    setScrollProgress(scrollLeft / maxScroll);
+    setScrollProgress(sLeft / maxScroll);
   };
 
   const slickSettings = {
@@ -228,42 +230,63 @@ export function Home() {
             </Slider>
           </div>
 
-          {/* ── Mobile: custom horizontal swipeable releases with quick scroll track ── */}
-          <div className="md:hidden relative px-4">
+          {/* ── Mobile: custom horizontal swipeable releases with 3D Coverflow & quick scroll track ── */}
+          <div className="md:hidden relative overflow-hidden py-6">
             {/* Scrollable Track */}
             <div
               ref={scrollRef}
               onScroll={handleScroll}
-              className="flex gap-5 overflow-x-auto snap-x snap-mandatory scrollbar-none pb-4 scroll-smooth"
-              style={{ WebkitOverflowScrolling: "touch" }}
+              className="flex gap-0 overflow-x-auto snap-x snap-mandatory scrollbar-none pb-6 scroll-smooth px-[calc(50vw-110px)]"
+              style={{ WebkitOverflowScrolling: "touch", perspective: "800px" }}
             >
-              {releases.map((item) => (
-                <div
-                  key={item.id}
-                  className="snap-center shrink-0 w-[80vw] max-w-[290px] first:ml-0 last:mr-0"
-                >
-                  <a href={item.link} target="_blank" rel="noreferrer" className="group block">
-                    <div className="overflow-hidden border border-white/10 mb-3 shadow-2xl bg-black aspect-square relative rounded-sm">
-                      <ImageWithFallback
-                        src={item.src}
-                        alt={`${item.title} cover art`}
-                        className="w-full h-full object-cover"
-                      />
-                      <div className="absolute inset-0 bg-brand-mustard/0 active:bg-brand-mustard/15 transition-colors flex items-center justify-center">
-                        <Play className="w-12 h-12 text-white opacity-0 active:opacity-100 drop-shadow-lg" fill="currentColor" />
+              {releases.map((item, index) => {
+                const cardWidth = 220;
+                const distance = index * cardWidth - scrollLeft;
+                const normalizedDistance = distance / cardWidth;
+                const absDist = Math.abs(normalizedDistance);
+
+                // Coefficients replicating the original coverflow logic:
+                const scale = absDist >= 1 ? 0.72 : 1 - absDist * 0.28;
+                const opacity = absDist >= 1 ? 0.35 : 1 - absDist * 0.65;
+                const rotateY = normalizedDistance <= -1 ? 28 : normalizedDistance >= 1 ? -28 : normalizedDistance * -28;
+                const zIndex = absDist >= 1 ? 1 : Math.round(10 - absDist * 9);
+                const zTranslation = absDist >= 1 ? -80 : -80 * absDist;
+                const xTranslationPercent = normalizedDistance <= -1 ? 14 : normalizedDistance >= 1 ? -14 : normalizedDistance * -14;
+
+                return (
+                  <div
+                    key={item.id}
+                    className="snap-center shrink-0 w-[220px] relative cursor-pointer"
+                    style={{
+                      transformStyle: "preserve-3d",
+                      transform: `perspective(800px) scale(${scale}) rotateY(${rotateY}deg) translateZ(${zTranslation}px) translateX(${xTranslationPercent}%)`,
+                      opacity,
+                      zIndex,
+                      willChange: "transform, opacity",
+                    }}
+                  >
+                    <a href={item.link} target="_blank" rel="noreferrer" className="block">
+                      <div className="overflow-hidden border border-white/10 mb-3 shadow-2xl bg-black aspect-square relative rounded-sm">
+                        <ImageWithFallback
+                          src={item.src}
+                          alt={`${item.title} cover art`}
+                          className="w-full h-full object-cover"
+                        />
+                        <div className="absolute inset-0 bg-brand-mustard/0 active:bg-brand-mustard/15 transition-colors flex items-center justify-center">
+                          <Play className="w-12 h-12 text-white opacity-0 active:opacity-100 drop-shadow-lg" fill="currentColor" />
+                        </div>
                       </div>
-                    </div>
-                    <h3 className="text-lg font-heading font-black text-white uppercase tracking-tight line-clamp-2 min-h-[3.5rem]">
-                      {item.title}
-                    </h3>
-                  </a>
-                </div>
-              ))}
+                      <h3 className="text-lg font-heading font-black text-white uppercase tracking-tight text-center line-clamp-1 px-2">
+                        {item.title.includes(" - ") ? item.title.split(" - ").slice(1).join(" - ") : item.title}
+                      </h3>
+                    </a>
+                  </div>
+                );
+              })}
             </div>
 
             {/* Premium quick scroll track (scrollbar controller) */}
             <div className="mt-2 w-full flex flex-col items-center justify-center gap-2">
-              <span className="text-[10px] font-heading font-bold uppercase tracking-[0.2em] text-white/50">Swipe to Explore</span>
               <div 
                 className="relative w-full max-w-[220px] h-[3px] bg-white/10 rounded-full overflow-hidden cursor-pointer"
                 onClick={(e) => {
