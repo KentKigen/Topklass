@@ -4,7 +4,7 @@ import { ImagePlaceholder } from "../components/ui/ImagePlaceholder";
 import { ImageWithFallback } from "../components/ui/ImageWithFallback";
 import { Play, Calendar, MapPin, Radio as RadioIcon, ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { motion as Motion, AnimatePresence } from "motion/react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Slider from "react-slick";
 
 import "slick-carousel/slick/slick.css";
@@ -53,15 +53,16 @@ const releases = [
 ];
 
 export function Home() {
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const scrollRef = useRef<HTMLDivElement>(null);
 
-  // Auto-advance coverflow on mobile with reset on manual interaction
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setActiveIndex(prev => (prev + 1) % releases.length);
-    }, 2000); // 2 seconds between automatic turns
-    return () => clearTimeout(timer);
-  }, [activeIndex]);
+  const handleScroll = () => {
+    if (!scrollRef.current) return;
+    const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
+    const maxScroll = scrollWidth - clientWidth;
+    if (maxScroll <= 0) return;
+    setScrollProgress(scrollLeft / maxScroll);
+  };
 
   const slickSettings = {
     dots: false,
@@ -102,7 +103,7 @@ export function Home() {
           alt="TopKlass Sounds Hero Background"
           className="absolute inset-0 w-full h-full object-cover scale-100 brightness-90 contrast-125"
         />
-        <div className="absolute inset-0 bg-brand-black/50 bg-gradient-to-t from-brand-black via-brand-black/30 to-transparent" />
+        <div className="absolute inset-0 bg-brand-black/40 bg-gradient-to-t from-brand-green via-brand-black/25 to-transparent" />
 
         <div className="container mx-auto px-4 relative z-10 flex flex-col items-center justify-center text-center h-full pb-16 sm:pb-24">
           <div className="max-w-4xl flex flex-col items-center w-full">
@@ -164,7 +165,7 @@ export function Home() {
         </div>
 
         {/* Infinite Scrolling Typographic Ticker */}
-        <div className="absolute bottom-0 w-full overflow-hidden whitespace-nowrap py-4 sm:py-6 border-t border-white/5 bg-brand-black/40 backdrop-blur-md z-20 flex items-center">
+        <div className="absolute bottom-0 w-full overflow-hidden whitespace-nowrap py-4 sm:py-6 border-t border-white/10 bg-brand-green/80 backdrop-blur-md z-20 flex items-center">
           <Motion.div
             animate={{ x: [0, -2000] }}
             transition={{ ease: "linear", duration: 30, repeat: Infinity }}
@@ -173,7 +174,7 @@ export function Home() {
             {[...Array(12)].map((_, i) => (
               <span
                 key={i}
-                className="text-xs sm:text-sm md:text-base font-heading font-black tracking-[0.3em] uppercase text-white/40 flex items-center gap-8 sm:gap-16"
+                className="text-xs sm:text-sm md:text-base font-heading font-black tracking-[0.3em] uppercase text-white/45 flex items-center gap-8 sm:gap-16"
               >
                 <span>Record Label</span>
                 <span className="w-1.5 h-1.5 rounded-full bg-brand-mustard/60" />
@@ -189,7 +190,7 @@ export function Home() {
         </div>
       </section>
 
-      <section className="pt-10 pb-24 md:py-24 bg-brand-black relative z-10 border-b border-white/5 overflow-hidden">
+      <section className="pt-10 pb-24 md:py-24 bg-gradient-to-b from-brand-green via-brand-green to-brand-green/90 relative z-10 border-b border-white/10 overflow-hidden">
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-4 md:mb-12">
             <div>
@@ -227,91 +228,64 @@ export function Home() {
             </Slider>
           </div>
 
-          {/* ── Mobile: custom coverflow ── */}
-          <div className="md:hidden relative">
-            {/* Coverflow track */}
-            <div className="flex items-center justify-center gap-0 overflow-hidden" style={{ perspective: "800px" }}>
-              {[-1, 0, 1].map(offset => {
-                const idx = (activeIndex + offset + releases.length) % releases.length;
-                const item = releases[idx];
-                const isCenter = offset === 0;
-                const trackName = item.title.includes(" - ") ? item.title.split(" - ").slice(1).join(" - ") : item.title;
-                return (
-                  <Motion.div
-                    key={`${activeIndex}-${offset}`}
-                    onClick={() => isCenter ? undefined : setActiveIndex(idx)}
-                    animate={{
-                      scale: isCenter ? 1 : 0.72,
-                      opacity: isCenter ? 1 : 0.35,
-                      rotateY: offset === -1 ? 28 : offset === 1 ? -28 : 0,
-                      z: isCenter ? 0 : -80,
-                      x: offset === -1 ? "14%" : offset === 1 ? "-14%" : "0%",
-                    }}
-                    transition={{ ease: "easeInOut", duration: 1.7 }}
-                    style={{ transformStyle: "preserve-3d", zIndex: isCenter ? 10 : 1, flex: "0 0 72%" }}
-                    className="relative cursor-pointer"
-                  >
-                    <a
-                      href={isCenter ? item.link : undefined}
-                      target={isCenter ? "_blank" : undefined}
-                      rel="noreferrer"
-                      onClick={e => { if (!isCenter) e.preventDefault(); }}
-                      className="block"
-                    >
-                      <div className="overflow-hidden border border-white/10 shadow-2xl bg-black aspect-square relative rounded-sm">
-                        <ImageWithFallback
-                          src={item.src}
-                          alt={`${item.title} cover art`}
-                          className="w-full h-full object-cover"
-                        />
-                        {isCenter && (
-                          <div className="absolute inset-0 bg-brand-mustard/0 active:bg-brand-mustard/10 transition-colors flex items-center justify-center">
-                            <Play className="w-14 h-14 text-white opacity-0 active:opacity-100 drop-shadow-lg" fill="currentColor" />
-                          </div>
-                        )}
+          {/* ── Mobile: custom horizontal swipeable releases with quick scroll track ── */}
+          <div className="md:hidden relative px-4">
+            {/* Scrollable Track */}
+            <div
+              ref={scrollRef}
+              onScroll={handleScroll}
+              className="flex gap-5 overflow-x-auto snap-x snap-mandatory scrollbar-none pb-4 scroll-smooth"
+              style={{ WebkitOverflowScrolling: "touch" }}
+            >
+              {releases.map((item) => (
+                <div
+                  key={item.id}
+                  className="snap-center shrink-0 w-[80vw] max-w-[290px] first:ml-0 last:mr-0"
+                >
+                  <a href={item.link} target="_blank" rel="noreferrer" className="group block">
+                    <div className="overflow-hidden border border-white/10 mb-3 shadow-2xl bg-black aspect-square relative rounded-sm">
+                      <ImageWithFallback
+                        src={item.src}
+                        alt={`${item.title} cover art`}
+                        className="w-full h-full object-cover"
+                      />
+                      <div className="absolute inset-0 bg-brand-mustard/0 active:bg-brand-mustard/15 transition-colors flex items-center justify-center">
+                        <Play className="w-12 h-12 text-white opacity-0 active:opacity-100 drop-shadow-lg" fill="currentColor" />
                       </div>
-                    </a>
-                  </Motion.div>
-                );
-              })}
+                    </div>
+                    <h3 className="text-lg font-heading font-black text-white uppercase tracking-tight line-clamp-2 min-h-[3.5rem]">
+                      {item.title}
+                    </h3>
+                  </a>
+                </div>
+              ))}
             </div>
 
-            {/* Track name below center art */}
-            <AnimatePresence mode="wait">
-              <Motion.p
-                key={activeIndex}
-                initial={{ opacity: 0, y: 6 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -6 }}
-                transition={{ duration: 0.3 }}
-                className="text-center font-heading font-black text-white uppercase tracking-tight text-lg mt-5 px-8 line-clamp-1"
+            {/* Premium quick scroll track (scrollbar controller) */}
+            <div className="mt-2 w-full flex flex-col items-center justify-center gap-2">
+              <span className="text-[10px] font-heading font-bold uppercase tracking-[0.2em] text-white/50">Swipe to Explore</span>
+              <div 
+                className="relative w-full max-w-[220px] h-[3px] bg-white/10 rounded-full overflow-hidden cursor-pointer"
+                onClick={(e) => {
+                  if (!scrollRef.current) return;
+                  const rect = e.currentTarget.getBoundingClientRect();
+                  const clickX = e.clientX - rect.left;
+                  const percent = clickX / rect.width;
+                  const targetScroll = percent * (scrollRef.current.scrollWidth - scrollRef.current.clientWidth);
+                  scrollRef.current.scrollTo({ left: targetScroll, behavior: 'smooth' });
+                }}
               >
-                {releases[activeIndex].title.includes(" - ")
-                  ? releases[activeIndex].title.split(" - ").slice(1).join(" - ")
-                  : releases[activeIndex].title}
-              </Motion.p>
-            </AnimatePresence>
-
-            {/* Dot indicators */}
-            <div className="flex items-center justify-center gap-1.5 mt-4">
-              {releases.map((_, i) => (
-                <button
-                  key={i}
-                  onClick={() => setActiveIndex(i)}
-                  className={`rounded-full transition-all duration-300 ${
-                    i === activeIndex
-                      ? "w-5 h-1.5 bg-brand-mustard"
-                      : "w-1.5 h-1.5 bg-white/30 hover:bg-white/60"
-                  }`}
-                  aria-label={`Go to release ${i + 1}`}
+                <div 
+                  className="absolute top-0 left-0 h-full bg-brand-mustard rounded-full transition-all duration-75"
+                  style={{ width: `${scrollProgress * 100}%` }}
                 />
-              ))}
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      <section className="bg-gradient-to-r from-brand-green to-brand-black text-white border-y border-brand-green/50 relative z-10 overflow-hidden">
+      <section className="bg-gradient-to-r from-brand-green to-brand-green/85 text-white border-y border-white/10 relative z-10 overflow-hidden">
         <div className="container mx-auto px-4 py-7 md:py-9">
 
           {/* Section heading */}
@@ -383,7 +357,7 @@ export function Home() {
         </div>
       </section>
 
-      <section className="py-24 bg-gradient-to-b from-brand-black via-brand-green/20 to-brand-black relative z-10">
+      <section className="py-24 bg-gradient-to-b from-brand-green/90 via-brand-black to-brand-black relative z-10">
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
             <div className="flex items-center gap-4 mb-10">

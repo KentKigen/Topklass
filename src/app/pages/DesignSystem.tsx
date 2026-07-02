@@ -36,7 +36,7 @@ export function DesignSystem() {
                 { name: "Brand Black", hex: "#000000", class: "bg-brand-black", textClass: "text-white" },
                 { name: "Brand White", hex: "#FFFFFF", class: "bg-brand-white", textClass: "text-black" },
                 { name: "Mustard", hex: "#D4A017", class: "bg-brand-mustard", textClass: "text-black" },
-                { name: "Hunter Green", hex: "#0F3D2E", class: "bg-brand-green", textClass: "text-white" }
+                { name: "Hunter Green", hex: "#2B512C", class: "bg-brand-green", textClass: "text-white" }
               ].map(color => (
                 <div key={color.name} className="flex flex-col gap-3">
                   <div className={`w-full aspect-square ${color.class} border border-white/20 rounded-sm flex items-end p-4`}>
