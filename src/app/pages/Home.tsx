@@ -3,7 +3,7 @@ import { Button } from "../components/ui/Button";
 import { ImagePlaceholder } from "../components/ui/ImagePlaceholder";
 import { ImageWithFallback } from "../components/ui/ImageWithFallback";
 import { Play, Calendar, MapPin, Radio as RadioIcon, ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
-import { motion as Motion, AnimatePresence } from "motion/react";
+import { motion as Motion, AnimatePresence, useScroll, useTransform } from "motion/react";
 import { useState, useEffect, useRef } from "react";
 import Slider from "react-slick";
 
@@ -52,18 +52,136 @@ const releases = [
   { id: 9, title: "Mura, Ywaya Tajiri - Lucky Summer", src: "/assets/releases/lucky-summer.jpg", link: "https://orcd.co/prjm9pw" }
 ];
 
+interface CoverflowCardProps {
+  item: typeof releases[0];
+  index: number;
+  scrollX: any;
+}
+
+function CoverflowCard({ item, index, scrollX }: CoverflowCardProps) {
+  const cardWidth = 220;
+  const cardCenter = index * cardWidth;
+
+  const scale = useTransform(
+    scrollX,
+    [cardCenter - cardWidth, cardCenter, cardCenter + cardWidth],
+    [0.72, 1, 0.72]
+  );
+  const opacity = useTransform(
+    scrollX,
+    [cardCenter - cardWidth, cardCenter, cardCenter + cardWidth],
+    [0.35, 1, 0.35]
+  );
+  const rotateY = useTransform(
+    scrollX,
+    [cardCenter - cardWidth, cardCenter, cardCenter + cardWidth],
+    [28, 0, -28]
+  );
+  const zTranslation = useTransform(
+    scrollX,
+    [cardCenter - cardWidth, cardCenter, cardCenter + cardWidth],
+    [-80, 0, -80]
+  );
+  const xTranslationPercent = useTransform(
+    scrollX,
+    [cardCenter - cardWidth, cardCenter, cardCenter + cardWidth],
+    [14, 0, -14]
+  );
+
+  const transform = useTransform(
+    [scale, rotateY, zTranslation, xTranslationPercent],
+    ([s, r, z, x]) => `perspective(800px) scale(${s}) rotateY(${r}deg) translateZ(${z}px) translateX(${x}%)`
+  );
+
+  const zIndex = useTransform(
+    scrollX,
+    [cardCenter - cardWidth, cardCenter, cardCenter + cardWidth],
+    [1, 10, 1]
+  );
+
+  return (
+    <Motion.div
+      className="snap-center shrink-0 w-[220px] relative cursor-pointer"
+      style={{
+        transformStyle: "preserve-3d",
+        transform,
+        opacity,
+        zIndex,
+        willChange: "transform, opacity",
+      }}
+    >
+      <a href={item.link} target="_blank" rel="noreferrer" className="block">
+        <div className="overflow-hidden border border-white/10 mb-3 shadow-2xl bg-black aspect-square relative rounded-sm">
+          <ImageWithFallback
+            src={item.src}
+            alt={`${item.title} cover art`}
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-brand-mustard/0 active:bg-brand-mustard/15 transition-colors flex items-center justify-center">
+            <Play className="w-12 h-12 text-white opacity-0 active:opacity-100 drop-shadow-lg" fill="currentColor" />
+          </div>
+        </div>
+        <h3 className="text-lg font-heading font-black text-white uppercase tracking-tight text-center line-clamp-1 px-2">
+          {item.title.includes(" - ") ? item.title.split(" - ").slice(1).join(" - ") : item.title}
+        </h3>
+      </a>
+    </Motion.div>
+  );
+}
+
 export function Home() {
-  const [scrollProgress, setScrollProgress] = useState(0);
-  const [scrollLeft, setScrollLeft] = useState(0);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const { scrollX } = useScroll({ container: scrollRef });
+  const idleTimerRef = useRef<any>(null);
+
+  const resetIdleTimer = () => {
+    if (idleTimerRef.current) {
+      clearInterval(idleTimerRef.current);
+    }
+    idleTimerRef.current = setInterval(() => {
+      if (scrollRef.current) {
+        scrollRef.current.scrollBy({ left: 220, behavior: "smooth" });
+      }
+    }, 1500);
+  };
+
+  useEffect(() => {
+    resetIdleTimer();
+    if (scrollRef.current) {
+      // Start in the middle copy (releases.length * 220)
+      scrollRef.current.scrollLeft = releases.length * 220;
+    }
+    return () => {
+      if (idleTimerRef.current) {
+        clearInterval(idleTimerRef.current);
+      }
+    };
+  }, []);
 
   const handleScroll = () => {
     if (!scrollRef.current) return;
-    const { scrollLeft: sLeft, scrollWidth, clientWidth } = scrollRef.current;
-    setScrollLeft(sLeft);
-    const maxScroll = scrollWidth - clientWidth;
-    if (maxScroll <= 0) return;
-    setScrollProgress(sLeft / maxScroll);
+    const { scrollLeft: sLeft } = scrollRef.current;
+    const singleSetWidth = releases.length * 220;
+
+    // Seamless loop boundary snaps
+    if (sLeft < singleSetWidth - 220) {
+      scrollRef.current.scrollLeft = sLeft + singleSetWidth;
+    } else if (sLeft > singleSetWidth * 2 - 220) {
+      scrollRef.current.scrollLeft = sLeft - singleSetWidth;
+    }
+
+    resetIdleTimer();
+  };
+
+  const handleTouchStart = () => {
+    if (idleTimerRef.current) {
+      clearInterval(idleTimerRef.current);
+      idleTimerRef.current = null;
+    }
+  };
+
+  const handleTouchEnd = () => {
+    resetIdleTimer();
   };
 
   const slickSettings = {
@@ -230,79 +348,28 @@ export function Home() {
             </Slider>
           </div>
 
-          {/* ── Mobile: custom horizontal swipeable releases with 3D Coverflow & quick scroll track ── */}
+          {/* ── Mobile: custom horizontal swipeable releases with 3D Coverflow & infinite scrolling ── */}
           <div className="md:hidden relative overflow-hidden py-6">
             {/* Scrollable Track */}
             <div
               ref={scrollRef}
               onScroll={handleScroll}
+              onTouchStart={handleTouchStart}
+              onTouchEnd={handleTouchEnd}
+              onMouseDown={handleTouchStart}
+              onMouseUp={handleTouchEnd}
+              onMouseLeave={handleTouchEnd}
               className="flex gap-0 overflow-x-auto snap-x snap-mandatory scrollbar-none pb-6 scroll-smooth px-[calc(50vw-110px)]"
               style={{ WebkitOverflowScrolling: "touch", perspective: "800px" }}
             >
-              {releases.map((item, index) => {
-                const cardWidth = 220;
-                const distance = index * cardWidth - scrollLeft;
-                const normalizedDistance = distance / cardWidth;
-                const absDist = Math.abs(normalizedDistance);
-
-                // Coefficients replicating the original coverflow logic:
-                const scale = absDist >= 1 ? 0.72 : 1 - absDist * 0.28;
-                const opacity = absDist >= 1 ? 0.35 : 1 - absDist * 0.65;
-                const rotateY = normalizedDistance <= -1 ? 28 : normalizedDistance >= 1 ? -28 : normalizedDistance * -28;
-                const zIndex = absDist >= 1 ? 1 : Math.round(10 - absDist * 9);
-                const zTranslation = absDist >= 1 ? -80 : -80 * absDist;
-                const xTranslationPercent = normalizedDistance <= -1 ? 14 : normalizedDistance >= 1 ? -14 : normalizedDistance * -14;
-
-                return (
-                  <div
-                    key={item.id}
-                    className="snap-center shrink-0 w-[220px] relative cursor-pointer"
-                    style={{
-                      transformStyle: "preserve-3d",
-                      transform: `perspective(800px) scale(${scale}) rotateY(${rotateY}deg) translateZ(${zTranslation}px) translateX(${xTranslationPercent}%)`,
-                      opacity,
-                      zIndex,
-                      willChange: "transform, opacity",
-                    }}
-                  >
-                    <a href={item.link} target="_blank" rel="noreferrer" className="block">
-                      <div className="overflow-hidden border border-white/10 mb-3 shadow-2xl bg-black aspect-square relative rounded-sm">
-                        <ImageWithFallback
-                          src={item.src}
-                          alt={`${item.title} cover art`}
-                          className="w-full h-full object-cover"
-                        />
-                        <div className="absolute inset-0 bg-brand-mustard/0 active:bg-brand-mustard/15 transition-colors flex items-center justify-center">
-                          <Play className="w-12 h-12 text-white opacity-0 active:opacity-100 drop-shadow-lg" fill="currentColor" />
-                        </div>
-                      </div>
-                      <h3 className="text-lg font-heading font-black text-white uppercase tracking-tight text-center line-clamp-1 px-2">
-                        {item.title.includes(" - ") ? item.title.split(" - ").slice(1).join(" - ") : item.title}
-                      </h3>
-                    </a>
-                  </div>
-                );
-              })}
-            </div>
-
-            {/* Premium quick scroll track (scrollbar controller) */}
-            <div className="mt-2 w-full flex flex-col items-center justify-center gap-2">
-              <div 
-                className="relative w-full max-w-[220px] h-[3px] bg-white/10 rounded-full overflow-hidden cursor-pointer"
-                onClick={(e) => {
-                  if (!scrollRef.current) return;
-                  const rect = e.currentTarget.getBoundingClientRect();
-                  const clickX = e.clientX - rect.left;
-                  const percent = clickX / rect.width;
-                  const targetScroll = percent * (scrollRef.current.scrollWidth - scrollRef.current.clientWidth);
-                  scrollRef.current.scrollTo({ left: targetScroll, behavior: 'smooth' });
-                }}
-              >
-                <div 
-                  className="absolute top-0 left-0 h-full bg-brand-mustard rounded-full transition-all duration-75"
-                  style={{ width: `${scrollProgress * 100}%` }}
+              {[...releases, ...releases, ...releases].map((item, index) => (
+                <CoverflowCard
+                  key={`${item.id}-${index}`}
+                  item={item}
+                  index={index}
+                  scrollX={scrollX}
                 />
-              </div>
+              ))}
             </div>
           </div>
         </div>
