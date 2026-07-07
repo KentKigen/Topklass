@@ -31,8 +31,8 @@ export function Contact() {
               <h3 className="text-sm font-sans font-bold text-white/50 uppercase tracking-widest mb-3 flex items-center gap-2">
                 <Mail className="w-4 h-4 text-brand-mustard" /> Email
               </h3>
-              <a href="mailto:topklasssounds@gmail.com" className="text-2xl font-heading font-black text-white uppercase tracking-tight hover:text-brand-mustard transition-colors focus:outline-none">
-                topklasssounds@gmail.com
+              <a href="mailto:itstopklass@gmail.com" className="text-2xl font-heading font-black text-white uppercase tracking-tight hover:text-brand-mustard transition-colors focus:outline-none">
+                itstopklass@gmail.com
               </a>
             </div>
           </div>
