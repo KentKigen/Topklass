@@ -22,7 +22,7 @@ export function Layout() {
   return (
     <div className="flex flex-col min-h-screen bg-brand-black text-brand-white font-sans selection:bg-brand-mustard selection:text-brand-black">
       {/* Top Navigation */}
-      <header className="sticky top-0 z-50 w-full border-b border-white/10 bg-brand-black/85 backdrop-blur-md premium-transition">
+      <header className="sticky top-0 z-50 w-full border-b border-brand-green/60 bg-brand-green/90 backdrop-blur-md premium-transition">
         <div className="container mx-auto px-4 h-16 md:h-20 flex items-center justify-between">
           <Link to="/" className="flex items-center hover:opacity-80 transition-opacity focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-mustard touch-target">
             <img src="/logo.png" alt="TopKlass Sounds Logo" className="h-12 md:h-16 w-auto object-contain" />
@@ -64,7 +64,7 @@ export function Layout() {
 
       {/* Mobile Nav Overlay */}
       {isMobileMenuOpen && (
-        <div className="md:hidden fixed inset-0 top-16 z-40 bg-brand-black/98 backdrop-blur-lg flex flex-col items-center justify-center gap-8 p-4 animate-in fade-in duration-200">
+        <div className="md:hidden fixed inset-0 top-16 z-40 bg-brand-green/97 backdrop-blur-lg flex flex-col items-center justify-center gap-8 p-4 animate-in fade-in duration-200">
           {navLinks.map((link) => (
             <Link
               key={link.path}

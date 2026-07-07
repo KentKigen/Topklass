@@ -17,11 +17,11 @@ const events = [
     id: 5, 
     title: "Magharibi Express", 
     location: "Nairobi, KE", 
-    venue: "Westlands", 
-    date: "AUG 30, 2025", 
+    venue: "MUZE, KenRail Towers", 
+    date: "JUL 10, 2026", 
     soldOut: false,
-    ticketUrl: "https://magharibiexpress.hustlesasa.shop",
-    description: "Magharibi Express celebrates original and authentic music deeply rooted in African culture. Founded by the visionary Mura and the talented Ally Fresh, this dynamic duo is revolutionizing the music industry. Through a blend of captivating DJ mixes on digital platforms like YouTube and Instagram and electrifying live events, Magharibi Express is redefining the music experience."
+    ticketUrl: "https://new.mookh.com/event/magharibi-express-producer-s-edition/",
+    description: "Magharibi Express: Producers Edition is a celebration of the producers shaping the future of Kenyan electronic music. This special edition shines a light on original sounds born here at home, bringing together artists who are pushing boundaries and creating music that deserves to be heard far beyond our borders. Expect a night of exclusive originals, unreleased music, and infectious rhythms rooted in Kenya's diverse musical heritage while embracing the future of electronic music."
   },
   { id: 1, title: "Mura Experience", location: "Nairobi, KE", venue: "The Alchemist Bar", date: "Nov 15, 2025", soldOut: true },
   { id: 2, title: "African Electronic Tour", location: "London, UK", venue: "Printworks", date: "Dec 02, 2025", soldOut: false },

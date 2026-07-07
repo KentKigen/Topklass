@@ -3,6 +3,12 @@ import { Play, Disc } from "lucide-react";
 
 const releases = [
   { 
+    id: 11, 
+    title: "Mura, Big Nyagz, Ayrosh - Balenciaga", 
+    src: "/assets/releases/balenciaga.jpg", 
+    stream: "#" 
+  },
+  { 
     id: 10, 
     title: "Mura, DJayPaps, Hiribae - Saka Mali", 
     src: "/assets/releases/saka-mali.jpg", 

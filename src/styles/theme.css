@@ -105,5 +105,38 @@
     align-self: center;
     vertical-align: middle;
   }
+
+  /* ── Slick Carousel Overrides ── */
+  .slick-slider {
+    /* Prevent any overflow from causing layout shift/shake */
+    overflow: hidden;
+  }
+  .slick-list {
+    overflow: hidden;
+  }
+  .slick-track {
+    display: flex;
+    align-items: stretch;
+    will-change: transform;
+  }
+  .slick-slide {
+    height: auto;
+    outline: none;
+  }
+  .slick-slide > div {
+    outline: none;
+  }
+  /* Forcefully hide dots and arrows in case they are injected */
+  .slick-dots {
+    display: none !important;
+  }
+  .slick-prev,
+  .slick-next {
+    display: none !important;
+  }
+  /* Hide scrollbar on the inner list */
+  .slick-list::-webkit-scrollbar {
+    display: none;
+  }
 }
 

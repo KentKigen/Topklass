@@ -3,8 +3,8 @@ import { Button } from "../components/ui/Button";
 import { ImagePlaceholder } from "../components/ui/ImagePlaceholder";
 import { ImageWithFallback } from "../components/ui/ImageWithFallback";
 import { Play, Calendar, MapPin, Radio as RadioIcon, ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
-import { motion as Motion, AnimatePresence, useScroll, useTransform } from "motion/react";
-import { useState, useEffect, useRef } from "react";
+import { motion as Motion } from "motion/react";
+import { useRef } from "react";
 import Slider from "react-slick";
 
 import "slick-carousel/slick/slick.css";
@@ -40,6 +40,7 @@ const CustomNextArrow = (props: any) => {
 };
 
 const releases = [
+  { id: 11, title: "Mura, Big Nyagz, Ayrosh - Balenciaga", src: "/assets/releases/balenciaga.jpg", link: "#" },
   { id: 10, title: "Mura, DJayPaps, Hiribae - Saka Mali", src: "/assets/releases/saka-mali.jpg", link: "https://open.spotify.com/album/4G2ybqvYcxfzF9ZoqTTlQM?si=I8HEPZKUQ_SFsENjf2UgXA" },
   { id: 1, title: "Mura, Hiribae, Ghedi, Ayrosh - My Lover", src: "/assets/releases/my-lover.jpg", link: "https://orcd.co/my-lover-presave" },
   { id: 2, title: "Mura, Sjef Rolet, Zaituni - Sema", src: "/assets/releases/sema.jpg", link: "https://orcd.co/sema_djmura" },
@@ -52,178 +53,53 @@ const releases = [
   { id: 9, title: "Mura, Ywaya Tajiri - Lucky Summer", src: "/assets/releases/lucky-summer.jpg", link: "https://orcd.co/prjm9pw" }
 ];
 
-interface CoverflowCardProps {
-  item: typeof releases[0];
-  index: number;
-  scrollX: any;
-}
 
-function CoverflowCard({ item, index, scrollX }: CoverflowCardProps) {
-  const cardWidth = 220;
-  const cardCenter = index * cardWidth;
-
-  const scale = useTransform(
-    scrollX,
-    [cardCenter - cardWidth, cardCenter, cardCenter + cardWidth],
-    [0.72, 1, 0.72]
-  );
-  const opacity = useTransform(
-    scrollX,
-    [cardCenter - cardWidth, cardCenter, cardCenter + cardWidth],
-    [0.35, 1, 0.35]
-  );
-  const rotateY = useTransform(
-    scrollX,
-    [cardCenter - cardWidth, cardCenter, cardCenter + cardWidth],
-    [28, 0, -28]
-  );
-  const zTranslation = useTransform(
-    scrollX,
-    [cardCenter - cardWidth, cardCenter, cardCenter + cardWidth],
-    [-80, 0, -80]
-  );
-  const xTranslationPercent = useTransform(
-    scrollX,
-    [cardCenter - cardWidth, cardCenter, cardCenter + cardWidth],
-    [14, 0, -14]
-  );
-
-  const transform = useTransform(
-    [scale, rotateY, zTranslation, xTranslationPercent],
-    ([s, r, z, x]) => `perspective(800px) scale(${s}) rotateY(${r}deg) translateZ(${z}px) translateX(${x}%)`
-  );
-
-  const zIndex = useTransform(
-    scrollX,
-    [cardCenter - cardWidth, cardCenter, cardCenter + cardWidth],
-    [1, 10, 1]
-  );
-
-  return (
-    <Motion.div
-      className="snap-center shrink-0 w-[220px] relative cursor-pointer"
-      style={{
-        transformStyle: "preserve-3d",
-        transform,
-        opacity,
-        zIndex,
-        willChange: "transform, opacity",
-      }}
-    >
-      <a href={item.link} target="_blank" rel="noreferrer" className="block">
-        <div className="overflow-hidden border border-white/10 mb-3 shadow-2xl bg-black aspect-square relative rounded-sm">
-          <ImageWithFallback
-            src={item.src}
-            alt={`${item.title} cover art`}
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-brand-mustard/0 active:bg-brand-mustard/15 transition-colors flex items-center justify-center">
-            <Play className="w-12 h-12 text-white opacity-0 active:opacity-100 drop-shadow-lg" fill="currentColor" />
-          </div>
-        </div>
-        <h3 className="text-lg font-heading font-black text-white uppercase tracking-tight text-center line-clamp-1 px-2">
-          {item.title.includes(" - ") ? item.title.split(" - ").slice(1).join(" - ") : item.title}
-        </h3>
-      </a>
-    </Motion.div>
-  );
-}
 
 export function Home() {
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const { scrollX } = useScroll({ container: scrollRef });
-  const idleTimerRef = useRef<any>(null);
-
-  const resetIdleTimer = () => {
-    if (idleTimerRef.current) {
-      clearInterval(idleTimerRef.current);
-    }
-    idleTimerRef.current = setInterval(() => {
-      if (scrollRef.current) {
-        scrollRef.current.scrollBy({ left: 220, behavior: "smooth" });
-      }
-    }, 1500);
-  };
-
-  useEffect(() => {
-    resetIdleTimer();
-    if (scrollRef.current) {
-      // Start in the middle copy (releases.length * 220)
-      scrollRef.current.scrollLeft = releases.length * 220;
-    }
-    return () => {
-      if (idleTimerRef.current) {
-        clearInterval(idleTimerRef.current);
-      }
-    };
-  }, []);
-
-  const handleScroll = () => {
-    if (!scrollRef.current) return;
-    const { scrollLeft: sLeft } = scrollRef.current;
-    const singleSetWidth = releases.length * 220;
-
-    // Seamless loop boundary snaps
-    if (sLeft < singleSetWidth - 220) {
-      scrollRef.current.scrollLeft = sLeft + singleSetWidth;
-    } else if (sLeft > singleSetWidth * 2 - 220) {
-      scrollRef.current.scrollLeft = sLeft - singleSetWidth;
-    }
-
-    resetIdleTimer();
-  };
-
-  const handleTouchStart = () => {
-    if (idleTimerRef.current) {
-      clearInterval(idleTimerRef.current);
-      idleTimerRef.current = null;
-    }
-  };
-
-  const handleTouchEnd = () => {
-    resetIdleTimer();
-  };
-
-  const slickSettings = {
+  const slickSettingsDesktop = {
     dots: false,
     infinite: true,
-    speed: 1600, // Slow, smooth continuous glide
+    speed: 700,
     slidesToShow: 3,
     slidesToScroll: 1,
     arrows: true,
     prevArrow: <CustomPrevArrow />,
     nextArrow: <CustomNextArrow />,
     autoplay: true,
-    autoplaySpeed: 400, // Brief pause before starting next turn (adds up to 2 seconds total cycle)
-    cssEase: "cubic-bezier(0.42, 0, 0.58, 1)", // Premium ease-in-out rotation curve
+    autoplaySpeed: 1500,
+    cssEase: "cubic-bezier(0.42, 0, 0.58, 1)",
     responsive: [
       { breakpoint: 1024, settings: { slidesToShow: 3, arrows: true } },
-      {
-        breakpoint: 768,
-        settings: {
-          slidesToShow: 1,
-          centerMode: true,
-          centerPadding: "32px",
-          arrows: false,
-          dots: false,
-          autoplay: true,
-          autoplaySpeed: 400,
-          speed: 1600,
-          cssEase: "cubic-bezier(0.42, 0, 0.58, 1)",
-        }
-      }
     ]
   };
 
+  const slickSettingsMobile = {
+    dots: false,
+    infinite: true,
+    speed: 600,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    arrows: false,
+    autoplay: true,
+    autoplaySpeed: 1500,
+    cssEase: "ease",
+    centerMode: true,
+    centerPadding: "48px",
+    swipeToSlide: true,
+    touchThreshold: 10,
+    pauseOnHover: false,
+  };
+
   return (
-    <div className="flex flex-col w-full bg-brand-black">
+    <div className="flex flex-col w-full bg-brand-black" style={{background: 'linear-gradient(to bottom, #2B512C 0%, #1a3020 6%, #000000 22%)'}}>
       <section className="hero-grain hero-overlay relative w-full h-[100dvh] min-h-[500px] sm:min-h-[600px] flex items-center justify-center overflow-hidden">
         <ImageWithFallback
           src={heroBg}
           alt="TopKlass Sounds Hero Background"
           className="absolute inset-0 w-full h-full object-cover scale-100 brightness-90 contrast-125"
         />
-        <div className="absolute inset-0 bg-brand-black/40 bg-gradient-to-t from-brand-green via-brand-black/25 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-b from-brand-green/85 via-brand-green/15 to-brand-black/70" />
+        <div className="absolute inset-0 bg-gradient-to-t from-brand-green via-transparent to-transparent" />
 
         <div className="container mx-auto px-4 relative z-10 flex flex-col items-center justify-center text-center h-full pb-16 sm:pb-24">
           <div className="max-w-4xl flex flex-col items-center w-full">
@@ -323,9 +199,9 @@ export function Home() {
             </Link>
           </div>
 
-          {/* ── Desktop: standard slick slider ── */}
+          {/* ── Desktop: react-slick slider ── */}
           <div className="hidden md:block -mx-4 cursor-grab active:cursor-grabbing">
-            <Slider {...slickSettings}>
+            <Slider {...slickSettingsDesktop}>
               {releases.map(item => (
                 <div key={item.id} className="px-4 outline-none">
                   <a href={item.link} target="_blank" rel="noreferrer" className="group block outline-none">
@@ -348,29 +224,29 @@ export function Home() {
             </Slider>
           </div>
 
-          {/* ── Mobile: custom horizontal swipeable releases with 3D Coverflow & infinite scrolling ── */}
-          <div className="md:hidden relative overflow-hidden py-6">
-            {/* Scrollable Track */}
-            <div
-              ref={scrollRef}
-              onScroll={handleScroll}
-              onTouchStart={handleTouchStart}
-              onTouchEnd={handleTouchEnd}
-              onMouseDown={handleTouchStart}
-              onMouseUp={handleTouchEnd}
-              onMouseLeave={handleTouchEnd}
-              className="flex gap-0 overflow-x-auto snap-x snap-mandatory scrollbar-none pb-6 scroll-smooth px-[calc(50vw-110px)]"
-              style={{ WebkitOverflowScrolling: "touch", perspective: "800px" }}
-            >
-              {[...releases, ...releases, ...releases].map((item, index) => (
-                <CoverflowCard
-                  key={`${item.id}-${index}`}
-                  item={item}
-                  index={index}
-                  scrollX={scrollX}
-                />
+          {/* ── Mobile: react-slick infinite carousel ── */}
+          <div className="md:hidden -mx-4">
+            <Slider {...slickSettingsMobile}>
+              {releases.map(item => (
+                <div key={item.id} className="px-2 outline-none">
+                  <a href={item.link} target="_blank" rel="noreferrer" className="block outline-none">
+                    <div className="overflow-hidden border border-white/10 mb-3 shadow-2xl bg-black aspect-square relative">
+                      <ImageWithFallback
+                        src={item.src}
+                        alt={`${item.title} cover art`}
+                        className="w-full h-full object-cover"
+                      />
+                      <div className="absolute inset-0 bg-brand-mustard/0 active:bg-brand-mustard/15 transition-colors flex items-center justify-center">
+                        <Play className="w-12 h-12 text-white opacity-0 active:opacity-100 drop-shadow-lg" fill="currentColor" />
+                      </div>
+                    </div>
+                    <h3 className="text-base font-heading font-black text-white uppercase tracking-tight text-center line-clamp-2 px-1">
+                      {item.title.includes(" - ") ? item.title.split(" - ").slice(1).join(" - ") : item.title}
+                    </h3>
+                  </a>
+                </div>
               ))}
-            </div>
+            </Slider>
           </div>
         </div>
       </section>
@@ -403,15 +279,15 @@ export function Home() {
             </Link>
 
             {/* Magharibi Express */}
-            <Link to="/events" className="group flex items-center gap-4 bg-black/50 border border-white/8 hover:border-brand-mustard/40 text-white px-5 py-3.5 rounded-sm hover:bg-black/70 transition-all duration-200 flex-1 sm:flex-none sm:min-w-[200px] shadow-lg">
+            <Link to="https://new.mookh.com/event/magharibi-express-producer-s-edition/" className="group flex items-center gap-4 bg-black/50 border border-white/8 hover:border-brand-mustard/40 text-white px-5 py-3.5 rounded-sm hover:bg-black/70 transition-all duration-200 flex-1 sm:flex-none sm:min-w-[200px] shadow-lg">
               <div className="font-heading font-black text-sm text-brand-mustard text-center leading-none min-w-[2.8rem] shrink-0">
-                AUG<br /><span className="text-2xl">30</span>
+                JUL<br /><span className="text-2xl">10</span>
               </div>
               <div className="w-px h-9 bg-white/15 shrink-0" />
               <div className="flex flex-col min-w-0">
                 <span className="font-bold uppercase tracking-tight text-sm md:text-base group-hover:text-brand-mustard transition-colors text-white truncate">Magharibi Express</span>
                 <span className="text-white/50 text-xs flex items-center gap-1 mt-0.5">
-                  <MapPin className="w-3 h-3 text-brand-mustard shrink-0" /> Westlands, Nairobi
+                  <MapPin className="w-3 h-3 text-brand-mustard shrink-0" /> MUZE, Nairobi
                 </span>
               </div>
               <ArrowRight className="w-4 h-4 text-brand-mustard ml-auto opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-200 shrink-0 hidden sm:block" />
